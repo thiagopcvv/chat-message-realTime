@@ -1,31 +1,69 @@
+import { signInWithEmailAndPassword } from "@react-native-firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-
+import { auth, db } from "../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { addDoc, doc, setDoc } from "firebase/firestore";
 export const AuthContext = createContext<any>({
   user: {},
   setUser: () => {},
   loading: false,
-  isAuthenticated: true,
+  isAuthenticated: false,
   perssistSessions: () => {},
 });
 
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const isAuthenticated = true;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {}, []);
-  const authenticate = async ({ login, password }: any) => {
-    // setLoading(true);
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(false);
+      } else {
+        setIsAuthenticated(false);
+      }
+
+      return unsub;
+    });
+  }, []);
+
+  const authenticate = async ({ email, password }: any) => {
+    try {
+      
+     
+    } catch (error) {
+     
+    }
   };
 
   const perssistSessions = async () => {};
 
-  const logout = async ({ login, password }: any) => {
+  const logout = async ({ email, password }: any) => {
     // setLoading(true);
   };
 
-  const register = async ({ login, password, name, profile }: any) => {
-    // setLoading(true);
+  const register = async ({ email, password, name, profile }: any) => {
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setUser(response.user);
+
+      await setDoc(doc(db, "users", response.user.uid), {
+        profile,
+        userId: response.user.uid,
+      });
+
+      return { succes: true, data: response.user };
+    } catch (error) {
+      return { succes: false, msg: error };
+    }
   };
 
   const value = {
