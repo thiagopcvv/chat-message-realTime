@@ -31,7 +31,6 @@ export function ThemedTextInput({
     { light: Colors.light.label, dark: Colors.light.tint },
     "text"
   );
-  console.log(textColor);
   return (
     <TextInput
       activeUnderlineColor={textColor}

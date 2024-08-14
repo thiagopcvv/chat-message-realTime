@@ -3,14 +3,16 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
-import { IconButton, TextInput, Button, HelperText } from "react-native-paper";
+import { TextInput, Button, HelperText } from "react-native-paper";
 import {
   KeyboardAvoidingView,
-  KeyboardAvoidingViewBase,
   Platform,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { ButtonTheme } from "@/components/ButtonTheme";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function SignUpScreen() {
   const [username, setUsername] = useState("");
@@ -18,7 +20,13 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
-  const [text, setText] = React.useState("");
+  const [securePassword, setSecurePassword] = useState<boolean>(true);
+  const [confirmSecure, setConfirmSecure] = useState<boolean>(true);
+
+  const backgroundColor = useThemeColor(
+    { light: Colors.light.background, dark: Colors.dark.background },
+    "background"
+  );
 
   const validateFields = () => {
     const newErrors: any = {};
@@ -50,7 +58,7 @@ export default function SignUpScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 3 }}
+      style={{ flex: 3, backgroundColor }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}
     >
@@ -59,13 +67,6 @@ export default function SignUpScreen() {
         darkColor={Colors.dark.background}
         lightColor={Colors.light.background}
       >
-        <IconButton
-          icon="chevron-left"
-          iconColor={"white"}
-          size={30}
-          onPress={() => router.replace("/signIn")}
-        />
-
         <ThemedText
           style={styles.title}
           darkColor={Colors.dark.text}
@@ -110,8 +111,13 @@ export default function SignUpScreen() {
           onChangeText={setPassword}
           error={!!errors.password}
           style={styles.input}
-          secureTextEntry
-          right={<TextInput.Icon icon="eye" />}
+          secureTextEntry={securePassword}
+          right={
+            <TextInput.Icon
+              icon={securePassword ? "eye" : "eye-off"}
+              onPress={() => setSecurePassword(!securePassword)}
+            />
+          }
         />
         <HelperText type="error" visible={!!errors.password}>
           {errors.password}
@@ -125,11 +131,11 @@ export default function SignUpScreen() {
           onChangeText={setConfirmPassword}
           error={!!errors.confirmPassword}
           style={styles.input}
-          secureTextEntry
+          secureTextEntry={confirmSecure}
           right={
             <TextInput.Icon
-              icon="eye"
-              onPress={() => setText(confirmPassword)}
+              icon={confirmSecure ? "eye" : "eye-off"}
+              onPress={() => setConfirmSecure(!confirmSecure)}
             />
           }
         />
@@ -137,14 +143,26 @@ export default function SignUpScreen() {
           {errors.confirmPassword}
         </HelperText>
 
-        <Button
+        <ButtonTheme
           mode="contained"
           onPress={handleSignUp}
           style={styles.button}
-          buttonColor="#0991c3"
+          darkColor={Colors.dark.buttonPrimary}
+          lightColor={Colors.light.buttonPrimary}
         >
           Cadastrar
-        </Button>
+        </ButtonTheme>
+        <TouchableOpacity
+          style={{ marginTop: 20, alignItems: "center" }}
+          onPress={() => router.replace("/signIn")}
+        >
+          <ThemedText
+            darkColor={Colors.dark.text}
+            lightColor={Colors.light.text}
+          >
+            Entrar com uma conta existente!
+          </ThemedText>
+        </TouchableOpacity>
       </ThemedView>
     </KeyboardAvoidingView>
   );
@@ -155,6 +173,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
+    marginTop: "15%",
   },
   title: {
     fontSize: 24,
