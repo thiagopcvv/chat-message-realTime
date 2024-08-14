@@ -10,7 +10,7 @@ export const AuthContext = createContext<any>({
   user: {},
   setUser: () => {},
   loading: false,
-  isAuthenticated: false,
+  isAuthenticated: true,
   perssistSessions: () => {},
 });
 
