@@ -1,0 +1,92 @@
+export const conversations = [
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+  {
+    id: "1",
+    name: "John Doe",
+    lastMessage: "Hey, how are you?",
+    time: "10:30 AM",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    lastMessage: "See you soon!",
+    time: "9:15 AM",
+  },
+];

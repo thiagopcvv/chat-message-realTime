@@ -4,6 +4,7 @@ import LottieView, { AnimationObject } from "lottie-react-native";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Tabs } from "expo-router";
+import { BlurView } from "expo-blur";
 
 export default function TabLayout() {
   const [isPlayingChat, setIsPlayingChat] = useState(false);
@@ -28,12 +29,26 @@ export default function TabLayout() {
     },
     headerShadowVisible: false,
     tabBarStyle: {
-      backgroundColor: backgroundColor,
       borderTopWidth: 0,
-      elevation: 0,
-      height: 70,
-      paddingBottom: 10,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      height: "10%",
+      position: "absolute",
+      backgroundColor: "transparent",
     },
+    tabBarBackground: () => (
+      <BlurView
+        tint="dark"
+        intensity={100}
+        style={{
+          ...StyleSheet.absoluteFillObject,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          overflow: "hidden",
+        }}
+      />
+    ),
+    tabBarActiveTintColor: "white",
   };
 
   const handlePressChat = (props: any) => {
@@ -69,11 +84,26 @@ export default function TabLayout() {
         options={{
           title: "Conversas",
           tabBarIcon: () =>
-            renderLottieIcon(require("../../assets/lottie/chat.json"), isPlayingChat),
+            renderLottieIcon(
+              require("../../assets/lottie/chat.json"),
+              isPlayingChat
+            ),
           tabBarButton: (props) => (
             <TouchableWithoutFeedback onPress={() => handlePressChat(props)}>
               <View style={styles.tabBarButton}>{props.children}</View>
             </TouchableWithoutFeedback>
+          ),
+          tabBarBackground: () => (
+            <BlurView
+              intensity={90}
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                overflow: "hidden",
+                backgroundColor: "transparent",
+              }}
+            />
           ),
         }}
       />
@@ -82,9 +112,14 @@ export default function TabLayout() {
         options={{
           title: "Configurações",
           tabBarIcon: () =>
-            renderLottieIcon(require("../../assets/lottie/settings.json"), isPlayingSettings),
+            renderLottieIcon(
+              require("../../assets/lottie/settings.json"),
+              isPlayingSettings
+            ),
           tabBarButton: (props) => (
-            <TouchableWithoutFeedback onPress={() => handlePressSettings(props)}>
+            <TouchableWithoutFeedback
+              onPress={() => handlePressSettings(props)}
+            >
               <View style={styles.tabBarButton}>{props.children}</View>
             </TouchableWithoutFeedback>
           ),
@@ -96,8 +131,8 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   lottie: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
   tabBarButton: {
     flex: 1,
