@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback, useColorScheme } from "react-native";
 import LottieView, { AnimationObject } from "lottie-react-native";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -8,6 +8,8 @@ import { Tabs } from "expo-router";
 export default function TabLayout() {
   const [isPlayingChat, setIsPlayingChat] = useState(false);
   const [isPlayingSettings, setIsPlayingSettings] = useState(false);
+
+  const theme = useColorScheme();
 
   const backgroundColor = useThemeColor(
     { light: Colors.light.background, dark: Colors.dark.background },
@@ -69,7 +71,12 @@ export default function TabLayout() {
         options={{
           title: "Conversas",
           tabBarIcon: () =>
-            renderLottieIcon(require("../../assets/lottie/chat.json"), isPlayingChat),
+            renderLottieIcon(
+              theme === "dark"
+                ? require("../../assets/lottie/chat-white.json")
+                : require("@/assets/lottie/chat.json"),
+              isPlayingChat
+            ),
           tabBarButton: (props) => (
             <TouchableWithoutFeedback onPress={() => handlePressChat(props)}>
               <View style={styles.tabBarButton}>{props.children}</View>
@@ -82,9 +89,16 @@ export default function TabLayout() {
         options={{
           title: "Configurações",
           tabBarIcon: () =>
-            renderLottieIcon(require("../../assets/lottie/settings.json"), isPlayingSettings),
+            renderLottieIcon(
+              theme === "dark"
+                ? require("../../assets/lottie/settings-white.json")
+                : require("@/assets/lottie/settings.json"),
+              isPlayingSettings
+            ),
           tabBarButton: (props) => (
-            <TouchableWithoutFeedback onPress={() => handlePressSettings(props)}>
+            <TouchableWithoutFeedback
+              onPress={() => handlePressSettings(props)}
+            >
               <View style={styles.tabBarButton}>{props.children}</View>
             </TouchableWithoutFeedback>
           ),
