@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableWithoutFeedback, useColorScheme } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  useColorScheme,
+  Platform,
+} from "react-native";
 import LottieView, { AnimationObject } from "lottie-react-native";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -36,19 +42,25 @@ export default function TabLayout() {
       borderTopRightRadius: 20,
       height: "10%",
       position: "absolute",
-      backgroundColor: "transparent",
+      backgroundColor: Platform.OS === "ios" ? "transparent" : backgroundColor,
     },
     tabBarBackground: () => (
-      <BlurView
-        tint="dark"
-        intensity={100}
-        style={{
-          ...StyleSheet.absoluteFillObject,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          overflow: "hidden",
-        }}
-      />
+      <>
+        {Platform.OS === "ios" ? (
+          <BlurView
+            tint={theme ?? "light"}
+            intensity={100}
+            style={{
+              ...StyleSheet.absoluteFillObject,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              overflow: "hidden",
+            }}
+          />
+        ) : (
+          <></>
+        )}
+      </>
     ),
     tabBarActiveTintColor: "white",
   };
@@ -87,27 +99,15 @@ export default function TabLayout() {
           title: "Conversas",
           tabBarIcon: () =>
             renderLottieIcon(
-
-              require("../../assets/lottie/chat.json"),
-
+              !isPlayingChat
+                ? require("@/assets/lottie/chat.json")
+                : require("@/assets/lottie/chat-white.json"),
               isPlayingChat
             ),
           tabBarButton: (props) => (
             <TouchableWithoutFeedback onPress={() => handlePressChat(props)}>
               <View style={styles.tabBarButton}>{props.children}</View>
             </TouchableWithoutFeedback>
-          ),
-          tabBarBackground: () => (
-            <BlurView
-              intensity={90}
-              style={{
-                ...StyleSheet.absoluteFillObject,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                overflow: "hidden",
-                backgroundColor: "transparent",
-              }}
-            />
           ),
         }}
       />
@@ -117,8 +117,9 @@ export default function TabLayout() {
           title: "Configurações",
           tabBarIcon: () =>
             renderLottieIcon(
-              require("../../assets/lottie/settings.json"),
-
+              !isPlayingSettings
+                ? require("../../assets/lottie/settings.json")
+                : require("@/assets/lottie/settings-white.json"),
               isPlayingSettings
             ),
           tabBarButton: (props) => (
