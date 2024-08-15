@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback, useColorScheme } from "react-native";
 import LottieView, { AnimationObject } from "lottie-react-native";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -9,6 +9,8 @@ import { BlurView } from "expo-blur";
 export default function TabLayout() {
   const [isPlayingChat, setIsPlayingChat] = useState(false);
   const [isPlayingSettings, setIsPlayingSettings] = useState(false);
+
+  const theme = useColorScheme();
 
   const backgroundColor = useThemeColor(
     { light: Colors.light.background, dark: Colors.dark.background },
@@ -85,7 +87,9 @@ export default function TabLayout() {
           title: "Conversas",
           tabBarIcon: () =>
             renderLottieIcon(
+
               require("../../assets/lottie/chat.json"),
+
               isPlayingChat
             ),
           tabBarButton: (props) => (
@@ -114,6 +118,7 @@ export default function TabLayout() {
           tabBarIcon: () =>
             renderLottieIcon(
               require("../../assets/lottie/settings.json"),
+
               isPlayingSettings
             ),
           tabBarButton: (props) => (

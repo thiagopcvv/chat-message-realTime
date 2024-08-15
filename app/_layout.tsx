@@ -1,7 +1,7 @@
 import { AuthProvider, useAuth } from "@/context/authContext";
 import { Slot, router } from "expo-router";
 import { useEffect } from "react";
-import { StatusBar, View } from "react-native";
+import { StatusBar, useColorScheme, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
 export default function RootLayout() {
