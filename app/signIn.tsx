@@ -13,8 +13,10 @@ import {
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ButtonTheme } from "@/components/ButtonTheme";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useAuth } from "@/context/authContext";
 
 export default function SignInScreen() {
+  const { authenticate } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
@@ -41,7 +43,7 @@ export default function SignInScreen() {
 
   const handleSignIn = () => {
     if (validateFields()) {
-      // Lógica de login aqui
+      authenticate({ email, password });
     }
   };
 
