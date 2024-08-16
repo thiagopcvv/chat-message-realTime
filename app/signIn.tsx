@@ -13,7 +13,7 @@ import {
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ButtonTheme } from "@/components/ButtonTheme";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SignInScreen() {
   const { authenticate } = useAuth();

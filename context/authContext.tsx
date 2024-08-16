@@ -8,7 +8,7 @@ export const AuthContext = createContext<any>({
   setUser: () => {},
   loading: false,
   isAuthenticated: false,
-  perssistSessions: () => {},
+  persistSessions: () => {},
 });
 
 export const AuthProvider = ({ children }: any) => {
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: any) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-    console.log(formData)
+    console.log(formData);
     try {
       const request = await axios.post(
         "http://192.168.100.179:8000/api/login",
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
-  const perssistSessions = async () => {
+  const persistSessions = async () => {
     try {
       setLoading(true);
       const srtUser = await AsyncStorage.getItem("user");
@@ -168,20 +168,10 @@ export const AuthProvider = ({ children }: any) => {
     loading,
     isAuthenticated,
     authenticate,
-    perssistSessions,
+    persistSessions,
     logout,
     register,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const value = useContext(AuthContext);
-
-  if (!value) {
-    throw new Error("erro useContext");
-  }
-
-  return value;
 };
