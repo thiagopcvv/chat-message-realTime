@@ -16,6 +16,7 @@ import { ListItem } from "@rneui/themed";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { conversations } from "@/mocks/conversationsMocks";
 import { randomID } from "@/utils/functions";
+import LottieView from "lottie-react-native";
 
 export default function ChatScreen() {
   const theme = useColorScheme();
@@ -35,36 +36,51 @@ export default function ChatScreen() {
       darkColor={Colors.dark.background}
       lightColor={Colors.light.background}
     >
-      <ScrollView>
-        {conversations.map((conversation) => (
-          <TouchableOpacity onPress={() => {}}>
-            <ListItem
-              containerStyle={{
-                backgroundColor: backgroundColor,
-                borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
-              }}
-              key={randomID()}
-              bottomDivider
-            >
-              <Avatar.Icon
-                icon="account"
-                size={45}
-                style={{ backgroundColor: "#2251ae" }}
-              />
-              <ListItem.Content>
-                <ListItem.Title
-                  style={{ color: text, fontWeight: "bold", fontSize: 16 }}
-                >
-                  {conversation.name}
-                </ListItem.Title>
-                <ListItem.Subtitle style={{ color: text, fontSize: 13 }}>
-                  {conversation.lastMessage}
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      {!conversations ? (
+        <FlatList
+          data={conversations}
+          keyExtractor={() => randomID()}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => {}}>
+              <ListItem
+                containerStyle={{
+                  backgroundColor: backgroundColor,
+                  borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
+                }}
+                key={randomID()}
+                bottomDivider
+              >
+                <Avatar.Icon
+                  icon="account"
+                  size={45}
+                  style={{ backgroundColor: "#2251ae" }}
+                />
+                <ListItem.Content>
+                  <ListItem.Title
+                    style={{ color: text, fontWeight: "bold", fontSize: 16 }}
+                  >
+                    {item.name}
+                  </ListItem.Title>
+                  <ListItem.Subtitle style={{ color: text, fontSize: 13 }}>
+                    {item.lastMessage}
+                  </ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
+        <ThemedView
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <LottieView
+            source={require("@/assets/lottie/messages-animation.json")}
+            autoPlay
+            loop
+            style={{ width: "50%", height: "50%" }}
+          ></LottieView>
+        </ThemedView>
+      )}
     </ThemedView>
   );
 }
