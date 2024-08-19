@@ -103,7 +103,9 @@ export const AuthProvider = ({ children }: any) => {
   const logout = async () => {
     setLoading(true);
     await AsyncStorage.clear();
+
     setLoading(false);
+    router.replace("/");
   };
 
   const register = async ({

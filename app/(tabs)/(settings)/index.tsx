@@ -4,13 +4,15 @@ import { Avatar, Button } from "react-native-paper";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SettingsScreen() {
+  const { logout } = useAuth();
   const [username, setUsername] = useState("John Doe");
   const [profileImage, setProfileImage] = useState(null);
 
   const handleLogout = () => {
-    // Implementar lógica de logout aqui
+    logout();
   };
 
   const handleEditProfile = () => {
@@ -65,7 +67,7 @@ export default function SettingsScreen() {
         onPress={handleLogout}
         style={styles.logoutButton}
       >
-        Logout
+        Sair
       </Button>
     </ThemedView>
   );
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginBottom: 40,
     flexDirection: "row",
-    gap: 10
+    gap: 10,
   },
   username: {
     fontSize: 20,
