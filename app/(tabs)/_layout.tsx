@@ -14,7 +14,7 @@ import { BlurView } from "expo-blur";
 
 export default function TabLayout() {
   const [isPlayingChat, setIsPlayingChat] = useState(false);
-  const [isPlayingSettings, setIsPlayingSettings] = useState(false);
+  const [isPlayingSettings, setIsPlayingSettings] = useState(true);
 
   const theme = useColorScheme();
 
@@ -62,7 +62,7 @@ export default function TabLayout() {
         )}
       </>
     ),
-    tabBarActiveTintColor: "white",
+    tabBarActiveTintColor: textColor,
   };
 
   const handlePressChat = (props: any) => {
@@ -99,9 +99,13 @@ export default function TabLayout() {
           title: "Conversas",
           tabBarIcon: () =>
             renderLottieIcon(
-              !isPlayingChat
-                ? require("@/assets/lottie/chat.json")
-                : require("@/assets/lottie/chat-white.json"),
+              theme === "dark"
+                ? !isPlayingChat
+                  ? require("@/assets/lottie/chat.json")
+                  : require("@/assets/lottie/chat-white.json")
+                : !isPlayingChat
+                ? require("@/assets/lottie/chat-gray.json")
+                : require("@/assets/lottie/chat.json"),
               isPlayingChat
             ),
           tabBarButton: (props) => (
@@ -117,9 +121,13 @@ export default function TabLayout() {
           title: "Configurações",
           tabBarIcon: () =>
             renderLottieIcon(
-              !isPlayingSettings
-                ? require("../../assets/lottie/settings.json")
-                : require("@/assets/lottie/settings-white.json"),
+              theme === "dark"
+                ? !isPlayingSettings
+                  ? require("../../assets/lottie/settings.json")
+                  : require("@/assets/lottie/settings-white.json")
+                : !isPlayingSettings
+                ? require("@/assets/lottie/settings-gray.json")
+                : require("@/assets/lottie/settings.json"),
               isPlayingSettings
             ),
           tabBarButton: (props) => (
