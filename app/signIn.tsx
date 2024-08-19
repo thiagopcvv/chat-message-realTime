@@ -16,7 +16,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function SignInScreen() {
-  const { authenticate } = useAuth();
+  const { authenticate, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<any>({});
@@ -107,6 +107,7 @@ export default function SignInScreen() {
           style={styles.button}
           darkColor={Colors.dark.buttonPrimary}
           lightColor={Colors.light.buttonPrimary}
+          loading={loading}
         >
           Entrar
         </ButtonTheme>

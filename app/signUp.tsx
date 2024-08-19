@@ -13,8 +13,10 @@ import {
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { ButtonTheme } from "@/components/ButtonTheme";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SignUpScreen() {
+  const { register, loading } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,6 +55,7 @@ export default function SignUpScreen() {
   const handleSignUp = () => {
     if (validateFields()) {
       // Lógica de cadastro aqui
+      register({ email, password, username, confirmPassword });
     }
   };
 
@@ -149,6 +152,7 @@ export default function SignUpScreen() {
           style={styles.button}
           darkColor={Colors.dark.buttonPrimary}
           lightColor={Colors.light.buttonPrimary}
+          loading={loading}
         >
           Cadastrar
         </ButtonTheme>

@@ -2,13 +2,13 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { router } from "expo-router";
 
 export const AuthContext = createContext<any>({
   user: {},
   setUser: () => {},
   loading: false,
   isAuthenticated: false,
-  persistSessions: () => {},
 });
 
 export const AuthProvider = ({ children }: any) => {
@@ -34,10 +34,10 @@ export const AuthProvider = ({ children }: any) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-    console.log(formData);
+
     try {
       const request = await axios.post(
-        "http://192.168.100.179:8000/api/login",
+        "http://192.168.100.124:8000/api/login",
         formData,
         {
           headers: {
@@ -48,14 +48,16 @@ export const AuthProvider = ({ children }: any) => {
       );
 
       const response = request.data;
-
       await AsyncStorage.setItem("token", response.token);
       await AsyncStorage.setItem("user", JSON.stringify(response.user));
 
       setUser(response.user);
-      setLoading(false);
+      if (response.user && response.user) {
+        router.replace("/(tabs)");
+        setLoading(false);
+      }
     } catch (error: any) {
-      switch (error.response?.status) {
+      switch (error.response.status) {
         case 401:
           setLoading(false);
           Alert.alert(
@@ -76,24 +78,33 @@ export const AuthProvider = ({ children }: any) => {
             "Não foi possível fazer login",
             "\nVerifique se você ja fez o cadastro!"
           );
+        case 422:
+          setLoading(false);
+          Alert.alert(
+            "Não foi possível fazer login",
+            "\nVerifique se você ja fez o cadastro!"
+          );
+          break;
       }
+      Alert.alert("Não foi possível fazer login! \n Tente em alguns minutos!");
     }
   };
 
-  const persistSessions = async () => {
+  const persistSessions = async ({isAuthenticated}) => {
+    console.log("Iniciando persistSessions");
     try {
       setLoading(true);
       const srtUser = await AsyncStorage.getItem("user");
+      console.log("Valor recuperado do AsyncStorage:", srtUser);
       if (srtUser) {
         const storedUser = JSON.parse(srtUser);
         setUser(storedUser);
+        console.log("Usuário recuperado:", storedUser);
       }
-
       setLoading(false);
     } catch (error) {
       setLoading(false);
-
-      console.warn(error);
+      console.warn("Erro ao recuperar a sessão:", error);
     }
   };
 
@@ -119,7 +130,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.179:8000/api/register",
+        "http://192.168.100.124:8000/api/register",
         formData,
         {
           headers: {
@@ -136,6 +147,10 @@ export const AuthProvider = ({ children }: any) => {
 
       setUser(response.user);
       setLoading(false);
+      if (response.user && response.user) {
+        Alert.alert("Bem vindo! \nCadastro feito com sucesso!");
+        router.replace("/signIn");
+      }
     } catch (error: any) {
       switch (error.response?.status) {
         case 401:
@@ -173,5 +188,6 @@ export const AuthProvider = ({ children }: any) => {
     register,
   };
 
+  console.log(value);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

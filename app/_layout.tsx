@@ -10,13 +10,14 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      persistSessions();
+      persistSessions({isAuthenticated});
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading]);
 
   const MainLayout = () => {
     useEffect(() => {
       if (!loading) {
+        console.log("aq78tb", isAuthenticated)
         if (isAuthenticated) {
           router.replace("/(tabs)");
         } else {
