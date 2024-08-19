@@ -4,30 +4,40 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { router } from "expo-router";
 
-export const AuthContext = createContext<any>({
+interface iAuthContextProps {
+  user: any;
+  setUser: (user: any) => void;
+  loading: boolean;
+  isAuthenticated: boolean;
+  authenticate: (credentials: any) => void;
+  persistSessions: () => void;
+  register: (credentials: any) => void;
+  logout: () => void;
+}
+
+export const AuthContext = createContext<iAuthContextProps>({
   user: {},
   setUser: () => {},
   loading: false,
   isAuthenticated: false,
+  authenticate: function (credentials: any): void {
+    throw new Error("Function not implemented.");
+  },
+  persistSessions: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  register: function (credentials: any): void {
+    throw new Error("Function not implemented.");
+  },
+  logout: function (): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const isAuthenticated = !!Object.keys(user ?? {}).length;
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // useEffect(() => {
-  //   const unsub = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       setIsAuthenticated(false);
-  //     } else {
-  //       setIsAuthenticated(false);
-  //     }
-
-  //     return unsub;
-  //   });
-  // }, []);
 
   const authenticate = async ({ email, password }: any) => {
     setLoading(true);
@@ -87,24 +97,6 @@ export const AuthProvider = ({ children }: any) => {
           break;
       }
       Alert.alert("Não foi possível fazer login! \n Tente em alguns minutos!");
-    }
-  };
-
-  const persistSessions = async ({isAuthenticated}) => {
-    console.log("Iniciando persistSessions");
-    try {
-      setLoading(true);
-      const srtUser = await AsyncStorage.getItem("user");
-      console.log("Valor recuperado do AsyncStorage:", srtUser);
-      if (srtUser) {
-        const storedUser = JSON.parse(srtUser);
-        setUser(storedUser);
-        console.log("Usuário recuperado:", storedUser);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.warn("Erro ao recuperar a sessão:", error);
     }
   };
 
@@ -177,6 +169,21 @@ export const AuthProvider = ({ children }: any) => {
     }
   };
 
+  const persistSessions = async () => {
+    try {
+      setLoading(true);
+      const srtUser = await AsyncStorage.getItem("user");
+      if (srtUser) {
+        const storedUser = JSON.parse(srtUser);
+        setUser(storedUser);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.warn("Erro ao recuperar a sessão:", error);
+    }
+  };
+
   const value = {
     user,
     setUser,
@@ -188,6 +195,5 @@ export const AuthProvider = ({ children }: any) => {
     register,
   };
 
-  console.log(value);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

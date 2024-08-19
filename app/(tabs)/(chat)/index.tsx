@@ -15,6 +15,7 @@ import { Avatar } from "react-native-paper";
 import { ListItem } from "@rneui/themed";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { conversations } from "@/mocks/conversationsMocks";
+import { randomID } from "@/utils/functions";
 
 export default function ChatScreen() {
   const theme = useColorScheme();
@@ -42,7 +43,7 @@ export default function ChatScreen() {
                 backgroundColor: backgroundColor,
                 borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
               }}
-              key={conversation.id}
+              key={randomID()}
               bottomDivider
             >
               <Avatar.Icon
