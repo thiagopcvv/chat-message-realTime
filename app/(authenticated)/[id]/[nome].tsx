@@ -38,7 +38,6 @@ export default function ChatScreen() {
 
   return (
     <>
-      <Link href={"/(chat)/visualizeprofile"}>aqui</Link>
       <GiftedChat
         messages={messages}
         messagesContainerStyle={{ backgroundColor: backgroundColor }}

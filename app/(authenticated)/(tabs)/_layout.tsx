@@ -125,7 +125,7 @@ export default function TabLayout() {
             renderLottieIcon(
               theme === "dark"
                 ? !isPlayingSettings
-                  ? require("../../assets/lottie/settings.json")
+                  ? require("@/assets/lottie/settings.json")
                   : require("@/assets/lottie/settings-white.json")
                 : !isPlayingSettings
                 ? require("@/assets/lottie/settings-gray.json")
