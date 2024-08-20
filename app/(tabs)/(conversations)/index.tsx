@@ -17,8 +17,9 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { conversations } from "@/mocks/conversationsMocks";
 import { randomID } from "@/utils/functions";
 import LottieView from "lottie-react-native";
+import { Link, router } from "expo-router";
 
-export default function ChatScreen() {
+export default function ConversationsScreen() {
   const theme = useColorScheme();
   const backgroundColor = useThemeColor(
     { dark: Colors.dark.background, light: Colors.light.background },
@@ -36,20 +37,20 @@ export default function ChatScreen() {
       darkColor={Colors.dark.background}
       lightColor={Colors.light.background}
     >
-      {!conversations ? (
+      {conversations ? (
         <FlatList
           data={conversations}
           keyExtractor={() => randomID()}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => {}}>
-              <ListItem
-                containerStyle={{
-                  backgroundColor: backgroundColor,
-                  borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
-                }}
-                key={randomID()}
-                bottomDivider
-              >
+          renderItem={({ item }) => (
+            <ListItem
+              containerStyle={{
+                backgroundColor: backgroundColor,
+                borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
+              }}
+              key={randomID()}
+              bottomDivider
+            >
+              <Link href={`/(chat)/${item.id}`}>
                 <Avatar.Icon
                   icon="account"
                   size={45}
@@ -65,8 +66,8 @@ export default function ChatScreen() {
                     {item.lastMessage}
                   </ListItem.Subtitle>
                 </ListItem.Content>
-              </ListItem>
-            </TouchableOpacity>
+              </Link>
+            </ListItem>
           )}
         />
       ) : (

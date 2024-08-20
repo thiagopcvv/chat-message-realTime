@@ -13,17 +13,17 @@ export default function RootLayout() {
       if (!isAuthenticated) {
         persistSessions();
       }
-    }, [isAuthenticated, loading]);
+    }, [isAuthenticated]);
 
     useEffect(() => {
       if (!loading) {
-        if (isAuthenticated) {
+        if (!isAuthenticated) {
           router.replace("/(tabs)");
         } else {
           router.replace("/signIn");
         }
       }
-    }, [isAuthenticated, loading]);
+    }, [isAuthenticated]);
 
     if (loading) {
       return (

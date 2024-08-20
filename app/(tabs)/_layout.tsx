@@ -13,8 +13,8 @@ import { Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
 
 export default function TabLayout() {
-  const [isPlayingChat, setIsPlayingChat] = useState(false);
-  const [isPlayingSettings, setIsPlayingSettings] = useState(true);
+  const [isPlayingChat, setIsPlayingChat] = useState(true);
+  const [isPlayingSettings, setIsPlayingSettings] = useState(false);
 
   const theme = useColorScheme();
 
@@ -94,7 +94,7 @@ export default function TabLayout() {
   return (
     <Tabs screenOptions={RouterOptions}>
       <Tabs.Screen
-        name="(chat)"
+        name="(conversations)"
         options={{
           title: "Conversas",
           tabBarIcon: () =>
