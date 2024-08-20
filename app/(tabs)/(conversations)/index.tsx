@@ -42,15 +42,22 @@ export default function ConversationsScreen() {
           data={conversations}
           keyExtractor={() => randomID()}
           renderItem={({ item }) => (
-            <ListItem
-              containerStyle={{
-                backgroundColor: backgroundColor,
-                borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
-              }}
-              key={randomID()}
-              bottomDivider
+            <TouchableOpacity
+              onPress={() =>
+                router.replace({
+                  pathname: `/(chat)/[id]/[nome]`,
+                  params: { id: item.id, nome: item.name },
+                })
+              }
             >
-              <Link href={`/(chat)/${item.id}`}>
+              <ListItem
+                containerStyle={{
+                  backgroundColor: backgroundColor,
+                  borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
+                }}
+                key={randomID()}
+                bottomDivider
+              >
                 <Avatar.Icon
                   icon="account"
                   size={45}
@@ -66,8 +73,8 @@ export default function ConversationsScreen() {
                     {item.lastMessage}
                   </ListItem.Subtitle>
                 </ListItem.Content>
-              </Link>
-            </ListItem>
+              </ListItem>
+            </TouchableOpacity>
           )}
         />
       ) : (

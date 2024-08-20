@@ -1,3 +1,5 @@
+import { Colors } from "@/constants/Colors";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState, useCallback, useEffect } from "react";
 import { View } from "react-native";
@@ -7,6 +9,11 @@ import { Text } from "react-native-paper";
 export default function ChatScreen() {
   const { id } = useLocalSearchParams();
   const [messages, setMessages] = useState<any>([]);
+
+  const backgroundColor = useThemeColor(
+    { light: Colors.light.background2, dark: Colors.dark.background2 },
+    "background"
+  );
 
   useEffect(() => {
     setMessages([
@@ -33,6 +40,7 @@ export default function ChatScreen() {
     <>
       <GiftedChat
         messages={messages}
+        messagesContainerStyle={{ backgroundColor: backgroundColor }}
         //@ts-expect-error
         onSend={(messages) => onSend(messages)}
         user={{
