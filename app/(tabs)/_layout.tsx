@@ -63,6 +63,8 @@ export default function TabLayout() {
       </>
     ),
     tabBarActiveTintColor: textColor,
+    animationEnabled: true,
+    animation: "fade",
   };
 
   const handlePressChat = (props: any) => {

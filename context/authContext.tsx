@@ -97,6 +97,7 @@ export const AuthProvider = ({ children }: any) => {
           break;
       }
       Alert.alert("Não foi possível fazer login! \n Tente em alguns minutos!");
+      setLoading(false)
     }
   };
 

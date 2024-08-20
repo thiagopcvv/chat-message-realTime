@@ -44,9 +44,13 @@ export default function ChatLayout() {
         )}
       </>
     ),
+    animationEnabled: true,
+    animationTypeForReplace: "push",
+    animation: "fade",
   };
 
   return (
+    //@ts-expect-error
     <Stack screenOptions={RouterOptions}>
       <Stack.Screen
         options={{
@@ -63,6 +67,7 @@ export default function ChatLayout() {
         }}
         name="[id]/[nome]"
       />
+      <Stack.Screen name="visualizeprofile"/>
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import React, { useState, useCallback, useEffect } from "react";
 import { View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
@@ -38,6 +38,7 @@ export default function ChatScreen() {
 
   return (
     <>
+      <Link href={"/(chat)/visualizeprofile"}>aqui</Link>
       <GiftedChat
         messages={messages}
         messagesContainerStyle={{ backgroundColor: backgroundColor }}
