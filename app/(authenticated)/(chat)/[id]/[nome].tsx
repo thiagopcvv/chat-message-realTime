@@ -9,18 +9,18 @@ import { Text } from "react-native-paper";
 export default function ChatScreen() {
   const { id } = useLocalSearchParams();
   const [messages, setMessages] = useState<any>([]);
-
   const backgroundColor = useThemeColor(
     { light: Colors.light.background2, dark: Colors.dark.background2 },
     "background"
   );
 
   useEffect(() => {
+    console.log(new Date());
     setMessages([
       {
         _id: 1,
         text: "Hello developer " + id,
-        createdAt: new Date(),
+        createdAt: "2024-08-21T13:14:04.840Z",
         user: {
           _id: 2,
           name: "React Native",
@@ -46,6 +46,7 @@ export default function ChatScreen() {
         user={{
           _id: 1,
         }}
+        
       />
     </>
   );

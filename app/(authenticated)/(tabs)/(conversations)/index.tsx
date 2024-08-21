@@ -44,8 +44,8 @@ export default function ConversationsScreen() {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                router.replace({
-                  pathname: `/[id]/[nome]`,
+                router.push({
+                  pathname: `/(authenticated)/[id]/[nome]`,
                   params: { id: item.id, nome: item.name },
                 })
               }
