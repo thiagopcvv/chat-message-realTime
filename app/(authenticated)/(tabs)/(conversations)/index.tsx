@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   FlatList,
@@ -18,8 +18,10 @@ import { conversations } from "@/mocks/conversationsMocks";
 import { randomID } from "@/utils/functions";
 import LottieView from "lottie-react-native";
 import { Link, router } from "expo-router";
+import { useConversationStore } from "@/store/conversationStore";
 
 export default function ConversationsScreen() {
+  const { fetchConversations, conversations } = useConversationStore();
   const theme = useColorScheme();
   const backgroundColor = useThemeColor(
     { dark: Colors.dark.background, light: Colors.light.background },
@@ -31,6 +33,11 @@ export default function ConversationsScreen() {
     "background"
   );
 
+  useEffect(() => {
+    fetchConversations()
+  }, []);
+
+  console.log(conversations, "conversation")
   return (
     <ThemedView
       style={{ flex: 1 }}

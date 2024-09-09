@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.124:8000/api/login",
+        "http://192.168.100.179:8087/api/login",
         formData,
         {
           headers: {
@@ -63,7 +63,6 @@ export const AuthProvider = ({ children }: any) => {
 
       setUser(response.user);
       if (response.user && response.user) {
-        router.replace("/(tabs)");
         setLoading(false);
       }
     } catch (error: any) {

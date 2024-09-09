@@ -4,6 +4,7 @@ import { Slot, router } from "expo-router";
 import { useEffect } from "react";
 import { StatusBar, useColorScheme, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { testePusher } from "@/index";
 
 export default function RootLayout() {
   const MainLayout = () => {
@@ -16,8 +17,9 @@ export default function RootLayout() {
     }, [isAuthenticated]);
 
     useEffect(() => {
+      testePusher();
       if (!loading) {
-        if (!isAuthenticated) {
+        if (isAuthenticated) {
           router.replace("/(authenticated)");
         } else {
           router.replace("/signIn");
