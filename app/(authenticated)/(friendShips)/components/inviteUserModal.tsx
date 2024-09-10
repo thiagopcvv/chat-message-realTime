@@ -1,5 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { friendshipService } from "@/services/friendShipService";
+import { router } from "expo-router";
 import { Dispatch, SetStateAction } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import { Avatar, Button, IconButton, Text } from "react-native-paper";
@@ -15,6 +17,11 @@ export function InviteUserModal({
   visible,
   setModalUser,
 }: iInviteUserModalProps) {
+  function handlePressInviteFriendshipp() {
+    friendshipService.registerFriendship(item.id);
+    router.navigate("/(authenticated)/(conversations)");
+  }
+
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <ThemedView style={styles.overlay}>
@@ -43,7 +50,7 @@ export function InviteUserModal({
             <Button
               icon={"check-bold"}
               style={styles.acceptButton}
-              onPress={() => setModalUser(false)}
+              onPress={handlePressInviteFriendshipp}
               textColor="white"
               mode="contained"
               buttonColor="#00e55c"
