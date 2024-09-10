@@ -19,25 +19,17 @@ import { randomID } from "@/utils/functions";
 import LottieView from "lottie-react-native";
 import { Link, router } from "expo-router";
 import { useConversationStore } from "@/store/conversationStore";
+import { ListConversations } from "./components/ListConversations";
+import { AnimationEmpty } from "./components/AnimationEmpty";
 
 export default function ConversationsScreen() {
   const { fetchConversations, conversations } = useConversationStore();
-  const theme = useColorScheme();
-  const backgroundColor = useThemeColor(
-    { dark: Colors.dark.background, light: Colors.light.background },
-    "background"
-  );
-
-  const text = useThemeColor(
-    { dark: Colors.dark.text, light: Colors.light.text },
-    "background"
-  );
 
   useEffect(() => {
-    fetchConversations()
+    fetchConversations();
   }, []);
 
-  console.log(conversations, "conversation")
+  console.log(conversations, "conversation");
   return (
     <ThemedView
       style={{ flex: 1 }}
@@ -48,53 +40,11 @@ export default function ConversationsScreen() {
         <FlatList
           data={conversations}
           keyExtractor={() => randomID()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                router.push({
-                  pathname: `/(authenticated)/[id]/[nome]`,
-                  params: { id: item.id, nome: item.name },
-                })
-              }
-            >
-              <ListItem
-                containerStyle={{
-                  backgroundColor: backgroundColor,
-                  borderBottomColor: theme === "dark" ? "#292929" : "#d6d6d6",
-                }}
-                key={randomID()}
-                bottomDivider
-              >
-                <Avatar.Icon
-                  icon="account"
-                  size={45}
-                  style={{ backgroundColor: "#2251ae" }}
-                />
-                <ListItem.Content>
-                  <ListItem.Title
-                    style={{ color: text, fontWeight: "bold", fontSize: 16 }}
-                  >
-                    {item.name}
-                  </ListItem.Title>
-                  <ListItem.Subtitle style={{ color: text, fontSize: 13 }}>
-                    {item.lastMessage}
-                  </ListItem.Subtitle>
-                </ListItem.Content>
-              </ListItem>
-            </TouchableOpacity>
-          )}
+          renderItem={({ item }) => <ListConversations item={item} />}
+          ListEmptyComponent={() => <AnimationEmpty />}
         />
       ) : (
-        <ThemedView
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <LottieView
-            source={require("@/assets/lottie/messages-animation.json")}
-            autoPlay
-            loop
-            style={{ width: "50%", height: "50%" }}
-          ></LottieView>
-        </ThemedView>
+        <AnimationEmpty />
       )}
     </ThemedView>
   );

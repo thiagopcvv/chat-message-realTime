@@ -19,6 +19,7 @@ export default function RootLayout() {
     useEffect(() => {
       testePusher();
       if (!loading) {
+        console.log(isAuthenticated)
         if (isAuthenticated) {
           router.replace("/(authenticated)");
         } else {
