@@ -1,10 +1,12 @@
 import { Alert } from "react-native";
 import api from "./api/api";
 
-async function fetchData() {
-  const request = await api.get("info");
-
+async function fetchData(term: string) {
+  const request = await api.get(
+    `busca-usuario?username=${term}`
+  );
   const response = request.data;
+
   if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");
 
   return response;

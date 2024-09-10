@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack } from "expo-router";
 
 export default function AuthenticatedLayout() {
   const backgroundColor = useThemeColor(
@@ -27,8 +27,8 @@ export default function AuthenticatedLayout() {
       />
       <Stack.Screen name="(chat)" options={{ headerShown: false }} />
       <Stack.Screen
-        name="friendShips"
-        options={{ title: "Amigos", headerTitleStyle: { color: text } }}
+        name="(friendShips)"
+        options={{ title: "Buscar usuários", headerTitleStyle: { color: text } }}
       />
     </Stack>
   );

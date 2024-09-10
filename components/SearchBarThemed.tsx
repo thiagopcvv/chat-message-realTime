@@ -1,6 +1,5 @@
+import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { darkColors } from "@rneui/base";
-import { useState } from "react";
 import { Searchbar, SearchbarProps } from "react-native-paper";
 
 type SearchBarThemedProps = SearchbarProps & {
@@ -15,22 +14,32 @@ const SerachBarThemed = ({
   lightColor,
   textDarkColor,
   textLightColor,
+  ...props
 }: SearchBarThemedProps) => {
-  const [searchQuery, setSearchQuery] = useState("");
   const backGround = useThemeColor(
-    { light: lightColor, dark: darkColor },
+    { light: Colors.dark.background, dark: Colors.light.background },
     "background"
   );
   const color = useThemeColor(
-    { light: textLightColor, dark: textDarkColor },
+    { light: Colors.dark.tint, dark: Colors.light.tint },
     "text"
   );
 
   return (
     <Searchbar
-      placeholder="Search"
-      onChangeText={setSearchQuery}
-      value={searchQuery}
+      {...props}
+      iconColor={color}
+      elevation={5}
+      placeholderTextColor={color}
+      style={{
+        backgroundColor: backGround,
+        color: color,
+        marginBottom: 20,
+        width: "100%",
+        shadowColor: backGround,
+      }}
+      selectionColor={Colors.primaryColor}
+      inputStyle={{ color: color }}
     />
   );
 };

@@ -121,7 +121,7 @@ export default function TabLayout() {
               icon={"account-multiple-plus"}
               size={25}
               iconColor={textColor}
-              onPress={() => router.navigate('/(authenticated)/friendShips')}
+              onPress={() => router.navigate('/(authenticated)/(friendShips)')}
             />
           ),
         }}

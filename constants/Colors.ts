@@ -7,6 +7,7 @@ const tintColorLight = "#000";
 const tintColorDark = "#fff";
 
 export const Colors = {
+  primaryColor: "#0a74d8",
   light: {
     buttonPrimary: "#000",
     label: "#fff",

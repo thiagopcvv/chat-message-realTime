@@ -20,7 +20,7 @@ export default function RootLayout() {
       testePusher();
       if (!loading) {
         if (isAuthenticated) {
-          router.replace("/(authenticated)");
+          router.replace("/(authenticated)/(tabs)");
         } else {
           router.replace("/signIn");
         }
