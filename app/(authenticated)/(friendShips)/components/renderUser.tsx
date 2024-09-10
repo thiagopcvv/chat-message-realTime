@@ -1,9 +1,17 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
+import { useState } from "react";
 import { Avatar, IconButton } from "react-native-paper";
+import { InviteUserModal } from "./inviteUserModal";
 
-export function RenderUser({ item }: any) {
+interface iRenderUserProps {
+  item: any;
+}
+
+export function RenderUser({ item }: iRenderUserProps) {
+  const [modalUser, setModalUser] = useState(false);
+
   return (
     <ThemedView
       style={{
@@ -24,13 +32,19 @@ export function RenderUser({ item }: any) {
           size={35}
         />
       )}
-      <ThemedText lightColor={Colors.light.text} darkColor={Colors.dark.text} style={{width: "70%"}}>
+      <ThemedText
+        lightColor={Colors.light.text}
+        darkColor={Colors.dark.text}
+        style={{ width: "70%" }}
+      >
         {item.username}
       </ThemedText>
       <IconButton
         icon={"plus-circle-outline"}
         iconColor={Colors.primaryColor}
+        onPress={() => setModalUser(true)}
       />
+      <InviteUserModal item={item} visible={modalUser} setModalUser={setModalUser} />
     </ThemedView>
   );
 }
