@@ -15,18 +15,17 @@ export default function RootLayout() {
         persistSessions();
       }
     }, [isAuthenticated]);
-
+  
     useEffect(() => {
       testePusher();
       if (!loading) {
-        console.log(isAuthenticated)
         if (isAuthenticated) {
           router.replace("/(authenticated)");
         } else {
           router.replace("/signIn");
         }
       }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, loading]);
 
     if (loading) {
       return (

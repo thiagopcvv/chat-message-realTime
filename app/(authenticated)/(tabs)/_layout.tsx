@@ -9,8 +9,9 @@ import {
 import LottieView, { AnimationObject } from "lottie-react-native";
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
+import { Icon, IconButton } from "react-native-paper";
 
 export default function TabLayout() {
   const [isPlayingChat, setIsPlayingChat] = useState(true);
@@ -114,6 +115,14 @@ export default function TabLayout() {
             <TouchableWithoutFeedback onPress={() => handlePressChat(props)}>
               <View style={styles.tabBarButton}>{props.children}</View>
             </TouchableWithoutFeedback>
+          ),
+          headerRight: (props) => (
+            <IconButton
+              icon={"account-multiple-plus"}
+              size={25}
+              iconColor={textColor}
+              onPress={() => router.navigate('/(authenticated)/friendShips')}
+            />
           ),
         }}
       />

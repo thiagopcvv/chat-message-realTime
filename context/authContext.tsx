@@ -37,7 +37,7 @@ export const AuthContext = createContext<iAuthContextProps>({
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const isAuthenticated = !!Object.keys(user ?? {}).length;
+  const [isAuthenticated, setIsAuthenticates] = useState(!!Object.keys(user).length);
 
   const authenticate = async ({ email, password }: any) => {
     setLoading(true);
@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }: any) => {
       await AsyncStorage.setItem("user", JSON.stringify(response.user));
 
       setUser(response.user);
+      setIsAuthenticates(true);
       if (response.user && response.user) {
         setLoading(false);
       }
@@ -96,16 +97,16 @@ export const AuthProvider = ({ children }: any) => {
           break;
       }
       Alert.alert("Não foi possível fazer login! \n Tente em alguns minutos!");
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   const logout = async () => {
     setLoading(true);
+    setIsAuthenticates(false);
     await AsyncStorage.clear();
 
     setLoading(false);
-    router.replace("/");
   };
 
   const register = async ({
@@ -124,7 +125,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.124:8000/api/register",
+        "http://192.168.100.124:8087/api/register",
         formData,
         {
           headers: {
@@ -140,6 +141,7 @@ export const AuthProvider = ({ children }: any) => {
       await AsyncStorage.setItem("user", JSON.stringify(response.user));
 
       setUser(response.user);
+      setIsAuthenticates(true);
       setLoading(false);
       if (response.user && response.user) {
         Alert.alert("Bem vindo! \nCadastro feito com sucesso!");
@@ -178,6 +180,7 @@ export const AuthProvider = ({ children }: any) => {
       if (srtUser) {
         const storedUser = JSON.parse(srtUser);
         setUser(storedUser);
+        setIsAuthenticates(true);
       }
       setLoading(false);
     } catch (error) {

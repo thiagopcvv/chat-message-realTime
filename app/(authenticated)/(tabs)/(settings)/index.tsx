@@ -5,14 +5,16 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 import { useAuth } from "@/hooks/useAuth";
+import { router } from "expo-router";
 
 export default function SettingsScreen() {
-  const { logout } = useAuth();
-  const [username, setUsername] = useState("John Doe");
+  const { logout, user } = useAuth();
+  const [username, setUsername] = useState(user.username ?? " ");
   const [profileImage, setProfileImage] = useState(null);
 
   const handleLogout = () => {
     logout();
+    router.replace("/signIn");
   };
 
   const handleEditProfile = () => {

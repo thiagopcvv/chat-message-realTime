@@ -36,7 +36,7 @@ export default function ConversationsScreen() {
       darkColor={Colors.dark.background}
       lightColor={Colors.light.background}
     >
-      {conversations ? (
+      {conversations.length > 0 ? (
         <FlatList
           data={conversations}
           keyExtractor={() => randomID()}

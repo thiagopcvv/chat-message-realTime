@@ -7,6 +7,12 @@ export default function AuthenticatedLayout() {
     { light: Colors.light.background, dark: Colors.dark.background },
     "background"
   );
+
+  const text = useThemeColor(
+    { light: Colors.light.text, dark: Colors.dark.text },
+    "background"
+  );
+
   return (
     <Stack
       screenOptions={{
@@ -15,8 +21,15 @@ export default function AuthenticatedLayout() {
         headerStyle: { backgroundColor },
       }}
     >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(tabs)"
+        options={{ headerShown: false, title: "Conversas" }}
+      />
       <Stack.Screen name="(chat)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="friendShips"
+        options={{ title: "Amigos", headerTitleStyle: { color: text } }}
+      />
     </Stack>
   );
 }
