@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import Constants from "expo-constants";
 
 const api = axios.create();
 
@@ -10,7 +9,7 @@ api.interceptors.request.use(
 
     if (strToken) {
       config.headers["Authorization"] = `Bearer ${strToken}`;
-      config.baseURL = `http://192.168.100.124:8087/api/`;
+      config.baseURL = `http://192.168.100.179:8087/api/`;
     }
 
     return config;

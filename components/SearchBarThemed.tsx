@@ -18,11 +18,11 @@ const SerachBarThemed = ({
 }: SearchBarThemedProps) => {
   const backGround = useThemeColor(
     { light: Colors.dark.background, dark: Colors.light.background },
-    "background"
+    "background",
   );
   const color = useThemeColor(
     { light: Colors.dark.tint, dark: Colors.light.tint },
-    "text"
+    "text",
   );
 
   return (

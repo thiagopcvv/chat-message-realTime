@@ -14,13 +14,20 @@ export function ButtonTheme({
 }: ButtonThemeProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background"
+    "background",
   );
 
   const text = useThemeColor(
     { light: darkColor, dark: lightColor },
-    "background"
+    "background",
   );
 
-  return <Button style={style} buttonColor={backgroundColor} textColor={text}{...otherProps} />;
+  return (
+    <Button
+      style={style}
+      buttonColor={backgroundColor}
+      textColor={text}
+      {...otherProps}
+    />
+  );
 }

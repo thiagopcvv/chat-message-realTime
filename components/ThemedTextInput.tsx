@@ -24,12 +24,12 @@ export function ThemedTextInput({
 }: iThemedTextInputProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background"
+    "background",
   );
 
   const textColor = useThemeColor(
     { light: Colors.light.label, dark: Colors.light.tint },
-    "text"
+    "text",
   );
   return (
     <TextInput

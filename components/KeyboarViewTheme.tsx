@@ -1,9 +1,5 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import {
-  KeyboardAvoidingView,
-  KeyboardAvoidingViewProps,
-  Platform,
-} from "react-native";
+import { KeyboardAvoidingView, KeyboardAvoidingViewProps } from "react-native";
 
 type KeyboardViewThemedProps = KeyboardAvoidingViewProps & {
   darkColor: string;
@@ -18,7 +14,7 @@ export function KeyboardViewThemed({
 }: KeyboardViewThemedProps) {
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },
-    "background"
+    "background",
   );
   return <KeyboardAvoidingView style={[{ backgroundColor }, style]} />;
 }
