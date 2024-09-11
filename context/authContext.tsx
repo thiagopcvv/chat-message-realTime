@@ -11,7 +11,7 @@ interface iAuthContextProps {
   isAuthenticated: boolean;
   authenticate: (credentials: any) => void;
   persistSessions: () => void;
-  register: (credentials: any) => void;
+  register: (credentials: iRegisterProps) => void;
   logout: () => void;
 }
 
@@ -20,7 +20,7 @@ interface iRegisterProps {
   password: string;
   username: string;
   confirmPassword: string;
-  profile: string;
+  profile: string | null;
 }
 
 export const AuthContext = createContext<iAuthContextProps>({

@@ -2,16 +2,28 @@ import { friendshipService } from "@/services/friendShipService";
 import { create } from "zustand";
 
 interface iUseFriendshipsStoreProps {
-  friendships: any;
-  fetchFriendships: (id: number) => void;
+  friendships: {
+    friends: any;
+    pendig: any;
+  };
+  fetchFriendships: () => void;
 }
 
 const useFriendshipsStore = create<iUseFriendshipsStoreProps>((set) => ({
-  friendships: [],
-  fetchFriendships: async (id: number) => {
-    const result = await friendshipService.fetchFriendships(id);
+  friendships: {
+    friends: [],
+    pendig: [],
+  },
+  fetchFriendships: async () => {
+    const result = await friendshipService.fetchFriendships();
 
-    if (!result) set({ friendships: [] });
+    if (!result)
+      set({
+        friendships: {
+          friends: [],
+          pendig: [],
+        },
+      });
 
     set({ friendships: result });
   },

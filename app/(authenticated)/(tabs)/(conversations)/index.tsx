@@ -1,35 +1,23 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  useColorScheme,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FlatList } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
-import { Avatar } from "react-native-paper";
-import { ListItem } from "@rneui/themed";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { conversations } from "@/mocks/conversationsMocks";
 import { randomID } from "@/utils/functions";
-import LottieView from "lottie-react-native";
-import { Link, router } from "expo-router";
 import { useConversationStore } from "@/store/conversationStore";
 import { ListConversations } from "./components/ListConversations";
 import { AnimationEmpty } from "./components/AnimationEmpty";
+import { useFriendshipsStore } from "@/store/friendshipsStore";
 
 export default function ConversationsScreen() {
   const { fetchConversations, conversations } = useConversationStore();
+  const { fetchFriendships, friendships } = useFriendshipsStore();
 
   useEffect(() => {
     fetchConversations();
+    fetchFriendships();
   }, []);
 
-  console.log(conversations, "conversation");
+  console.log(friendships, "conversation");
   return (
     <ThemedView
       style={{ flex: 1 }}

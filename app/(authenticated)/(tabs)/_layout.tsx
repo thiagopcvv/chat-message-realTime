@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,11 +11,18 @@ import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { router, Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
-import { Icon, IconButton } from "react-native-paper";
+import { IconButton } from "react-native-paper";
+import { useFriendshipsStore } from "@/store/friendshipsStore";
 
 export default function TabLayout() {
   const [isPlayingChat, setIsPlayingChat] = useState(true);
   const [isPlayingSettings, setIsPlayingSettings] = useState(false);
+  const { friendships } = useFriendshipsStore();
+  const [notifyn, setNotify] = useState(false);
+
+  useEffect(() => {
+    if (friendships.pendig.length > 0) setNotify(true);
+  }, [friendships]);
 
   const theme = useColorScheme();
 
@@ -107,8 +114,8 @@ export default function TabLayout() {
                   ? require("@/assets/lottie/chat.json")
                   : require("@/assets/lottie/chat-white.json")
                 : !isPlayingChat
-                ? require("@/assets/lottie/chat-gray.json")
-                : require("@/assets/lottie/chat.json"),
+                  ? require("@/assets/lottie/chat-gray.json")
+                  : require("@/assets/lottie/chat.json"),
               isPlayingChat
             ),
           tabBarButton: (props) => (
@@ -117,12 +124,24 @@ export default function TabLayout() {
             </TouchableWithoutFeedback>
           ),
           headerRight: (props) => (
-            <IconButton
-              icon={"account-multiple-plus"}
-              size={25}
-              iconColor={textColor}
-              onPress={() => router.navigate('/(authenticated)/(friendShips)')}
-            />
+            <View style={{ flexDirection: "row" }}>
+              <IconButton
+                icon={notifyn ? "bell-badge-outline" : "bell-outline"}
+                size={23}
+                iconColor={textColor}
+                onPress={() =>
+                  router.navigate("/(authenticated)/(notifications)")
+                }
+              />
+              <IconButton
+                icon={"account-multiple-plus"}
+                size={25}
+                iconColor={textColor}
+                onPress={() =>
+                  router.navigate("/(authenticated)/(friendShips)")
+                }
+              />
+            </View>
           ),
         }}
       />
@@ -137,8 +156,8 @@ export default function TabLayout() {
                   ? require("@/assets/lottie/settings.json")
                   : require("@/assets/lottie/settings-white.json")
                 : !isPlayingSettings
-                ? require("@/assets/lottie/settings-gray.json")
-                : require("@/assets/lottie/settings.json"),
+                  ? require("@/assets/lottie/settings-gray.json")
+                  : require("@/assets/lottie/settings.json"),
               isPlayingSettings
             ),
           tabBarButton: (props) => (

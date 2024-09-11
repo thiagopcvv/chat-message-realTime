@@ -28,7 +28,17 @@ export default function AuthenticatedLayout() {
       <Stack.Screen name="(chat)" options={{ headerShown: false }} />
       <Stack.Screen
         name="(friendShips)"
-        options={{ title: "Buscar usuários", headerTitleStyle: { color: text } }}
+        options={{
+          title: "Buscar usuários",
+          headerTitleStyle: { color: text },
+        }}
+      />
+      <Stack.Screen
+        name="(notifications)"
+        options={{
+          title: "Notificações",
+          headerTitleStyle: { color: text },
+        }}
       />
     </Stack>
   );

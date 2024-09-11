@@ -10,7 +10,7 @@ async function fetchData(term: string) {
   return response;
 }
 
-async function fetchFriendships(id: number) {
+async function fetchFriendships() {
   const request = await api.get("friendship");
   const response = request.data;
   if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");

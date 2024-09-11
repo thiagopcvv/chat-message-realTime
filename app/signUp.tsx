@@ -3,7 +3,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
-import { TextInput, Button, HelperText } from "react-native-paper";
+import { TextInput, HelperText } from "react-native-paper";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -55,7 +55,13 @@ export default function SignUpScreen() {
   const handleSignUp = () => {
     if (validateFields()) {
       // Lógica de cadastro aqui
-      register({ email, password, username, confirmPassword });
+      register({
+        email,
+        password,
+        username,
+        confirmPassword,
+        profile: null,
+      });
     }
   };
 
