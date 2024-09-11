@@ -15,6 +15,14 @@ interface iAuthContextProps {
   logout: () => void;
 }
 
+interface iRegisterProps {
+  email: string;
+  password: string;
+  username: string;
+  confirmPassword: string;
+  profile: string;
+}
+
 export const AuthContext = createContext<iAuthContextProps>({
   user: {},
   setUser: () => {},
@@ -37,7 +45,9 @@ export const AuthContext = createContext<iAuthContextProps>({
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticates] = useState(!!Object.keys(user).length);
+  const [isAuthenticated, setIsAuthenticates] = useState(
+    !!Object.keys(user).length
+  );
 
   const authenticate = async ({ email, password }: any) => {
     setLoading(true);
@@ -47,7 +57,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.179:8087/api/login",
+        "http://192.168.100.124:8087/api/login",
         formData,
         {
           headers: {
@@ -112,13 +122,13 @@ export const AuthProvider = ({ children }: any) => {
   const register = async ({
     email,
     password,
-    name,
+    username,
     profile,
     confirmPassword,
-  }: any) => {
+  }: iRegisterProps) => {
     setLoading(true);
     const formData = new FormData();
-    formData.append("name", name);
+    formData.append("username", username);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("password_confirmation", confirmPassword);
@@ -148,27 +158,47 @@ export const AuthProvider = ({ children }: any) => {
         router.replace("/signIn");
       }
     } catch (error: any) {
+      if (error.response?.status === 422) {
+        const errors = error.response.data.errors;
+
+        let errorMessage = "Erro ao cadastrar:\n";
+        if (errors.username) {
+          errorMessage += `- Nome de usuário: esse usuário ja está sendo usado!`;
+        }
+        if (errors.email) {
+          errorMessage += `- Email: esse email já está sendo usado!`;
+        }
+
+        setLoading(false);
+        Alert.alert("Falha no cadastro", errorMessage);
+        return;
+      }
+
+      console.log(error);
       switch (error.response?.status) {
         case 401:
-          setLoading(false);
           Alert.alert(
             "Não foi possível fazer login",
             "\nVerifique se o usuário ou senha estão corretos\nA senha diferencia letras maiúsculas e minúsculas"
           );
           break;
         case 504:
-          setLoading(false);
           Alert.alert(
             "Não foi possível fazer login",
             "\nSem conexão com o servidor\nVerifique sua conexão com a internet."
           );
           break;
         case 403:
-          setLoading(false);
           Alert.alert(
             "Não foi possível fazer login",
-            "\nVerifique se você ja fez o cadastro!"
+            "\nVerifique se você já fez o cadastro!"
           );
+          break;
+        default:
+          if (error.response) {
+            Alert.alert("Erro", "Algo deu errado. Tente novamente.");
+          }
+          break;
       }
     }
   };

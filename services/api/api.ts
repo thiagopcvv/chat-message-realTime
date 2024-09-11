@@ -10,7 +10,7 @@ api.interceptors.request.use(
 
     if (strToken) {
       config.headers["Authorization"] = `Bearer ${strToken}`;
-      config.baseURL = `http://192.168.100.179:8087/api/`;
+      config.baseURL = `http://192.168.100.124:8087/api/`;
     }
 
     return config;

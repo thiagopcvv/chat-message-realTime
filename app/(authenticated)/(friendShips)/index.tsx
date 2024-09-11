@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { useAuth } from "@/hooks/useAuth";
-import { useFriendshipsStore } from "@/store/friendshipsStore";
-import { Avatar, IconButton, Text, TextInput } from "react-native-paper";
+import { Text } from "react-native-paper";
 import SerachBarThemed from "@/components/SearchBarThemed";
 import { FlatList } from "react-native";
 import { useInfoUsersStore } from "@/store/infoUserStore";
 import LottieView from "lottie-react-native";
-import { Colors } from "@/constants/Colors";
 import { ThemedText } from "@/components/ThemedText";
 import { RenderUser } from "./components/renderUser";
 
 export default function FriendShip() {
   const { user } = useAuth();
-  const { friendships, fetchFriendships } = useFriendshipsStore();
-  const { allUsers, fetchUsers } = useInfoUsersStore();
+  const { allUsers, fetchUsers, setAllUser } = useInfoUsersStore();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchFriendships(user.id);
+    setAllUser([]);
   }, []);
 
   function handleFindUser() {
