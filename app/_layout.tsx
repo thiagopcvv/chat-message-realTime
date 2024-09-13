@@ -2,9 +2,9 @@ import { AuthProvider } from "@/context/authContext";
 import { useAuth } from "../hooks/useAuth";
 import { Slot, router } from "expo-router";
 import { useEffect } from "react";
-import { StatusBar, useColorScheme, View } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 import { testePusher } from "@/index";
+import { ThemedView } from "@/components/ThemedView";
+import { ActivityIndicator } from "react-native";
 
 export default function RootLayout() {
   const MainLayout = () => {
@@ -15,7 +15,7 @@ export default function RootLayout() {
         persistSessions();
       }
     }, [isAuthenticated]);
-  
+
     useEffect(() => {
       testePusher();
       if (!loading) {
@@ -29,11 +29,11 @@ export default function RootLayout() {
 
     if (loading) {
       return (
-        <View
+        <ThemedView
           style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
         >
           <ActivityIndicator size="large" color="#15a5da" />
-        </View>
+        </ThemedView>
       );
     }
 

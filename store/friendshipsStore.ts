@@ -4,7 +4,7 @@ import { create } from "zustand";
 interface iUseFriendshipsStoreProps {
   friendships: {
     friends: any;
-    pendig: any;
+    pending: any;
   };
   fetchFriendships: () => void;
 }
@@ -12,7 +12,7 @@ interface iUseFriendshipsStoreProps {
 const useFriendshipsStore = create<iUseFriendshipsStoreProps>((set) => ({
   friendships: {
     friends: [],
-    pendig: [],
+    pending: [],
   },
   fetchFriendships: async () => {
     const result = await friendshipService.fetchFriendships();
@@ -21,7 +21,7 @@ const useFriendshipsStore = create<iUseFriendshipsStoreProps>((set) => ({
       set({
         friendships: {
           friends: [],
-          pendig: [],
+          pending: [],
         },
       });
 

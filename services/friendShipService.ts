@@ -24,7 +24,17 @@ async function registerFriendship(id: number) {
   const request = await api.post("friendship", formdata, {
     headers: { "Content-Type": "multipart/form-data", contentType: false },
   });
-  console.log(request)
+  console.log(request);
+  const response = request.data;
+  if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");
+
+  return response;
+}
+
+async function toAcceptFriendiship(id: number) {
+  const formdata = new FormData();
+  formdata.append("friend_id", id.toString());
+  const request = await api.put(`friendship/${id}`);
   const response = request.data;
   if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");
 
@@ -35,4 +45,5 @@ export const friendshipService = {
   fetchData,
   fetchFriendships,
   registerFriendship,
+  toAcceptFriendiship,
 };

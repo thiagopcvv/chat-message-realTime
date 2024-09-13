@@ -22,7 +22,8 @@ export const Colors = {
   dark: {
     buttonPrimary: "#fff",
     text: "#ECEDEE",
-    background: "#151718",
+    background: "#101d24",
+    backHeader: "#151718",
     background2: "#000000e3",
     tint: tintColorDark,
     icon: "#9BA1A6",
