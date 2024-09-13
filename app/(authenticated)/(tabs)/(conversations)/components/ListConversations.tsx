@@ -17,7 +17,6 @@ export function ListConversations({item}: any) {
     { dark: Colors.dark.text, light: Colors.light.text },
     "background"
   );
-  console.log(item)
   return (
     <TouchableOpacity
       onPress={() =>

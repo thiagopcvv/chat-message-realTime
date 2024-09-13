@@ -17,7 +17,6 @@ export default function ConversationsScreen() {
     fetchFriendships();
   }, []);
 
-  console.log(friendships, "conversation");
   return (
     <ThemedView
       style={{ flex: 1 }}

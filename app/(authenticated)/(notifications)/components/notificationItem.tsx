@@ -5,6 +5,7 @@ import { getTimeAgo } from "@/utils/functions";
 import { useState } from "react";
 import { friendshipService } from "@/services/friendShipService";
 import { useConversationStore } from "@/store/conversationStore";
+import { useFriendshipsStore } from "@/store/friendshipsStore";
 
 interface iNoticationItemProps {
   item: any;
@@ -14,12 +15,14 @@ export default function NotificationItem({ item }: iNoticationItemProps) {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { fetchConversations } = useConversationStore();
+  const { fetchFriendships } = useFriendshipsStore();
 
   async function onAcceptFriendship() {
     setLoading(true);
     if (item.user_id) {
       await friendshipService.toAcceptFriendiship(item.user_id);
-      fetchConversations()
+      fetchConversations();
+      fetchFriendships();
     }
 
     setLoading(false);

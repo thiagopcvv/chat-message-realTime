@@ -24,7 +24,6 @@ async function registerFriendship(id: number) {
   const request = await api.post("friendship", formdata, {
     headers: { "Content-Type": "multipart/form-data", contentType: false },
   });
-  console.log(request);
   const response = request.data;
   if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");
 

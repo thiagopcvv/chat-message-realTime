@@ -21,7 +21,11 @@ export default function TabLayout() {
   const [notifyn, setNotify] = useState(false);
 
   useEffect(() => {
-    if (friendships.pending.length > 0) setNotify(true);
+    if (friendships.pending.length > 0) {
+      setNotify(true);
+    } else {
+      setNotify(false);
+    }
   }, [friendships]);
 
   const theme = useColorScheme();
