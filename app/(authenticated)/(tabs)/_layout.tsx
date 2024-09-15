@@ -21,6 +21,7 @@ export default function TabLayout() {
   const [notifyn, setNotify] = useState(false);
 
   useEffect(() => {
+    console.log(friendships)
     if (friendships.pending.length > 0) {
       setNotify(true);
     } else {

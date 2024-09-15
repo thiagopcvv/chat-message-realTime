@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.179:8087/api/login",
+        "http://192.168.100.124:8087/api/login",
         formData,
         {
           headers: {
@@ -135,7 +135,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.179:8087/api/register",
+        "http://192.168.100.124:8087/api/register",
         formData,
         {
           headers: {

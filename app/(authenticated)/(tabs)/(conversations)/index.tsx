@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FlatList } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
 import { randomID } from "@/utils/functions";
@@ -9,9 +9,10 @@ import { AnimationEmpty } from "./components/AnimationEmpty";
 import { useFriendshipsStore } from "@/store/friendshipsStore";
 
 export default function ConversationsScreen() {
-  const { fetchConversations, conversations } = useConversationStore();
-  const { fetchFriendships, friendships } = useFriendshipsStore();
-
+  const { fetchConversations, conversations, loadingConversation } =
+    useConversationStore();
+  const { fetchFriendships } = useFriendshipsStore();
+  
   useEffect(() => {
     fetchConversations();
     fetchFriendships();
@@ -23,15 +24,21 @@ export default function ConversationsScreen() {
       darkColor={Colors.dark.background}
       lightColor={Colors.light.background}
     >
-      {conversations.length > 0 ? (
-        <FlatList
-          data={conversations}
-          keyExtractor={() => randomID()}
-          renderItem={({ item }) => <ListConversations item={item} />}
-          ListEmptyComponent={() => <AnimationEmpty />}
-        />
+      {loadingConversation ? (
+        <ActivityIndicator color={Colors.primaryColor} size={30} />
       ) : (
-        <AnimationEmpty />
+        <>
+          {conversations.length > 0 ? (
+            <FlatList
+              data={conversations}
+              keyExtractor={() => randomID()}
+              renderItem={({ item }) => <ListConversations item={item} />}
+              ListEmptyComponent={() => <AnimationEmpty />}
+            />
+          ) : (
+            <AnimationEmpty />
+          )}
+        </>
       )}
     </ThemedView>
   );
