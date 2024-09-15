@@ -105,9 +105,13 @@ export const AuthProvider = ({ children }: any) => {
             "\nVerifique se você ja fez o cadastro!"
           );
           break;
+        default:
+          Alert.alert(
+            "Não foi possível fazer login! \n Tente em alguns minutos!"
+          );
+          setLoading(false);
+          break;
       }
-      Alert.alert("Não foi possível fazer login! \n Tente em alguns minutos!");
-      setLoading(false);
     }
   };
 

@@ -1,6 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Stack } from "expo-router";
+import { Platform } from "react-native";
 
 export default function AuthenticatedLayout() {
   const backgroundColor = useThemeColor(
@@ -31,6 +32,7 @@ export default function AuthenticatedLayout() {
         options={{
           title: "Buscar usuários",
           headerTitleStyle: { color: text },
+          headerTintColor: Platform.OS === 'ios' ? undefined : text
         }}
       />
       <Stack.Screen
@@ -38,6 +40,7 @@ export default function AuthenticatedLayout() {
         options={{
           title: "Notificações",
           headerTitleStyle: { color: text },
+          headerTintColor: Platform.OS === 'ios' ? undefined : text
         }}
       />
     </Stack>

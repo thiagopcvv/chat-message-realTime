@@ -75,7 +75,6 @@ export default function SignInScreen() {
           error={!!errors.email}
           style={styles.input}
           keyboardType="email-address"
-          autoCapitalize="none"
         />
         <HelperText type="error" visible={!!errors.email}>
           {errors.email}
