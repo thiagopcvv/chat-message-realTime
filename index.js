@@ -5,8 +5,8 @@ export function testePusher() {
     cluster: "sa1",
   });
 
-  const channel = pusher.subscribe("test-channel");
-  channel.bind("test-event", function (data) {
+  const channel = pusher.subscribe("my-channel");
+  channel.bind("my-event", function (data) {
     console.log(`Event received: ${JSON.stringify(data)}`);
   });
 }
