@@ -9,4 +9,10 @@ function getTimeAgo(updatedAt: string) {
   return formatDistanceToNow(date, { addSuffix: true, locale: ptBR });
 }
 
-export { randomID, getTimeAgo };
+function sortPendingByUpdatedAt(pending: any[]) {
+  return pending.sort(
+    //@ts-expect-error
+    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+  );
+}
+export { randomID, getTimeAgo, sortPendingByUpdatedAt };

@@ -1,4 +1,5 @@
 import { friendshipService } from "@/services/friendShipService";
+import { sortPendingByUpdatedAt } from "@/utils/functions";
 import { create } from "zustand";
 
 interface iUseFriendshipsStoreProps {
@@ -16,7 +17,7 @@ const useFriendshipsStore = create<iUseFriendshipsStoreProps>((set) => ({
   },
   fetchFriendships: async () => {
     const result = await friendshipService.fetchFriendships();
-
+    console.log("result", result);
     if (!result)
       set({
         friendships: {
@@ -24,8 +25,9 @@ const useFriendshipsStore = create<iUseFriendshipsStoreProps>((set) => ({
           pending: [],
         },
       });
+    const sortedPending = sortPendingByUpdatedAt(result.pending);
 
-    set({ friendships: result });
+    set({ friendships: { ...result, pending: sortedPending } });
   },
 }));
 

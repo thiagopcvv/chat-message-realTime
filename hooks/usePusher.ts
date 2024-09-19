@@ -15,7 +15,6 @@ function usePusher() {
     if (channel) {
       const channelPusher = pusher.subscribe(channel);
       channelPusher.bind(event, (data: any) => {
-        console.log(data, onChange);
         setOnChange((prevstate) => !prevstate);
       });
     }
