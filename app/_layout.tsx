@@ -2,7 +2,6 @@ import { AuthProvider } from "@/context/authContext";
 import { useAuth } from "../hooks/useAuth";
 import { Slot, router } from "expo-router";
 import { useEffect } from "react";
-import { testePusher } from "@/index";
 import { ThemedView } from "@/components/ThemedView";
 import { ActivityIndicator } from "react-native";
 
@@ -17,7 +16,6 @@ export default function RootLayout() {
     }, [isAuthenticated]);
 
     useEffect(() => {
-      testePusher();
       if (!loading) {
         if (isAuthenticated) {
           router.replace("/(authenticated)/(tabs)");

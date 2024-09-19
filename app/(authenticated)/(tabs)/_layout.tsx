@@ -13,12 +13,24 @@ import { router, Tabs } from "expo-router";
 import { BlurView } from "expo-blur";
 import { IconButton } from "react-native-paper";
 import { useFriendshipsStore } from "@/store/friendshipsStore";
+import { usePusher } from "@/hooks/usePusher";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TabLayout() {
+  const { user } = useAuth();
+  const { pusherConnectionChannel, onChange } = usePusher();
   const [isPlayingChat, setIsPlayingChat] = useState(true);
   const [isPlayingSettings, setIsPlayingSettings] = useState(false);
-  const { friendships } = useFriendshipsStore();
+  const { friendships, fetchFriendships } = useFriendshipsStore();
   const [notifyn, setNotify] = useState(false);
+
+  useEffect(() => {
+    pusherConnectionChannel(`Invite.${user.id}`, `Invite.User.${user.id}`);
+  }, []);
+
+  useEffect(() => {
+    fetchFriendships();
+  }, [onChange]);
 
   useEffect(() => {
     if (friendships.pending.length > 0) {

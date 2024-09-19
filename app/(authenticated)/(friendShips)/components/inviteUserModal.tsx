@@ -1,9 +1,11 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { usePusher } from "@/hooks/usePusher";
 import { friendshipService } from "@/services/friendShipService";
+import { useFriendshipsStore } from "@/store/friendshipsStore";
 import { router } from "expo-router";
 import { Dispatch, SetStateAction } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Alert, Modal, StyleSheet, View } from "react-native";
 import { Avatar, Button, IconButton, Text } from "react-native-paper";
 
 interface iInviteUserModalProps {
@@ -17,8 +19,10 @@ export function InviteUserModal({
   visible,
   setModalUser,
 }: iInviteUserModalProps) {
-  function handlePressInviteFriendshipp() {
-    friendshipService.registerFriendship(item.id);
+  async function handlePressInviteFriendshipp() {
+    setModalUser(false)
+    const result = await friendshipService.registerFriendship(item.id);
+    console.log(result)
     router.navigate("/(authenticated)/(conversations)");
   }
 

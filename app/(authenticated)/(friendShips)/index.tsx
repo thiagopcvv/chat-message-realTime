@@ -3,29 +3,28 @@ import { ThemedView } from "@/components/ThemedView";
 import { useAuth } from "@/hooks/useAuth";
 import { Text } from "react-native-paper";
 import SerachBarThemed from "@/components/SearchBarThemed";
-import { FlatList } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import { useInfoUsersStore } from "@/store/infoUserStore";
 import LottieView from "lottie-react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { RenderUser } from "./components/renderUser";
+import { Colors } from "@/constants/Colors";
 
 export default function FriendShip() {
   const { user } = useAuth();
-  const { allUsers, fetchUsers, setAllUser } = useInfoUsersStore();
+  const { allUsers, fetchUsers, setAllUser, loadingUsers } =
+    useInfoUsersStore();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setAllUser([]);
   }, []);
 
   function handleFindUser() {
-    setLoading(true);
     if (searchTerm !== "") {
       fetchUsers(searchTerm);
     }
-    setLoading(false);
   }
 
   return (
@@ -45,8 +44,8 @@ export default function FriendShip() {
         onSubmitEditing={handleFindUser}
       />
 
-      {loading ? (
-        <Text style={{ color: "white" }}>Buscando...</Text>
+      {loadingUsers ? (
+        <ActivityIndicator color={Colors.primaryColor} size={30} />
       ) : (
         <>
           {allUsers.length > 0 ? (

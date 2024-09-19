@@ -19,15 +19,25 @@ async function fetchFriendships() {
 }
 
 async function registerFriendship(id: number) {
-  const formdata = new FormData();
-  formdata.append("friend_id", id.toString());
-  const request = await api.post("friendship", formdata, {
-    headers: { "Content-Type": "multipart/form-data", contentType: false },
-  });
-  const response = request.data;
-  if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");
+  try {
+    const formdata = new FormData();
+    formdata.append("friend_id", id.toString());
+    const request = await api.post("friendship", formdata, {
+      headers: { "Content-Type": "multipart/form-data", contentType: false },
+    });
+    const response = request.data;
+    if (!response) Alert.alert("Ocorreu um problema, tente mais tarde!");
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.message) {
+      if (error.message === "Request failed with status code 403") {
+        Alert.alert(
+          "Você já recebeu \n ou enviou um pedido de amizade desse usuário"
+        );
+      }
+    }
+  }
 }
 
 async function toAcceptFriendiship(id: number) {
