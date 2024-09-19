@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Pusher from "pusher-js";
 
 // export function connectPusher() {

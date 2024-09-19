@@ -20,9 +20,8 @@ export function InviteUserModal({
   setModalUser,
 }: iInviteUserModalProps) {
   async function handlePressInviteFriendshipp() {
-    setModalUser(false)
-    const result = await friendshipService.registerFriendship(item.id);
-    console.log(result)
+    setModalUser(false);
+    await friendshipService.registerFriendship(item.id);
     router.navigate("/(authenticated)/(conversations)");
   }
 

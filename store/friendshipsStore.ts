@@ -17,7 +17,6 @@ const useFriendshipsStore = create<iUseFriendshipsStoreProps>((set) => ({
   },
   fetchFriendships: async () => {
     const result = await friendshipService.fetchFriendships();
-    console.log("result", result);
     if (!result)
       set({
         friendships: {
