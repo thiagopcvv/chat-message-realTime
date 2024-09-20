@@ -1,21 +1,32 @@
+import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
+import { useAuth } from "@/hooks/useAuth";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useMessageStore } from "@/store/messageStore";
 import { Link, useLocalSearchParams } from "expo-router";
 import React, { useState, useCallback, useEffect } from "react";
 import { View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Text } from "react-native-paper";
+import { ModalLoadingMsg } from "./components/modalLoadingMsg";
 
 export default function ChatScreen() {
-  const { id } = useLocalSearchParams();
-  const [messages, setMessages] = useState<any>([]);
+  const { id, nome } = useLocalSearchParams();
+  const { fetchMessages, loadingMsg, messages } = useMessageStore();
+  const [messages2, setMessages] = useState<any>([]);
+
   const backgroundColor = useThemeColor(
     { light: Colors.light.background2, dark: Colors.dark.background2 },
     "background"
   );
+  console.log(messages);
+  useEffect(() => {
+    if (typeof id === "string" || typeof id === "number") {
+      fetchMessages(parseInt(id), messages);
+    }
+  }, []);
 
   useEffect(() => {
-    console.log(new Date());
     setMessages([
       {
         _id: 1,
@@ -30,24 +41,24 @@ export default function ChatScreen() {
     ]);
   }, []);
 
-  const onSend = useCallback((messages = []) => {
+  const onSend = useCallback((messages2 = []) => {
     setMessages((previousMessages: never[] | undefined) =>
-      GiftedChat.append(previousMessages, messages)
+      GiftedChat.append(previousMessages, messages2)
     );
   }, []);
 
   return (
     <>
       <GiftedChat
-        messages={messages}
+        messages={messages2}
         messagesContainerStyle={{ backgroundColor: backgroundColor }}
         //@ts-expect-error
-        onSend={(messages) => onSend(messages)}
+        onSend={(messages2) => onSend(messages2)}
         user={{
           _id: 1,
         }}
-        
       />
+      <ModalLoadingMsg visible />
     </>
   );
 }
