@@ -9,12 +9,14 @@ import { View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Text } from "react-native-paper";
 import { ModalLoadingMsg } from "./components/modalLoadingMsg";
+import { formatMessages } from "./utils/handleDataFunctionsChat";
 
 export default function ChatScreen() {
+  const { user } = useAuth();
   const { id, nome } = useLocalSearchParams();
   const { fetchMessages, loadingMsg, messages, getMessages } =
     useMessageStore();
-  const [messages2, setMessages] = useState<any>([]);
+  const [cahtMessages, setChatMessages] = useState<any>([]);
 
   const backgroundColor = useThemeColor(
     { light: Colors.light.background2, dark: Colors.dark.background2 },
@@ -30,38 +32,31 @@ export default function ChatScreen() {
     }
   }, []);
 
-  console.log(messages)
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer " + id,
-        createdAt: "2024-08-21T13:14:04.840Z",
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
-        },
-      },
-    ]);
-  }, []);
+    if (messages && messages.length > 0) {
+      const userMessages = formatMessages(messages[0].user, true);
+      const friendMessages = formatMessages(messages[0].friend, false);
+      setChatMessages([...friendMessages, ...userMessages]);
+    }
+  }, [messages]);
 
-  const onSend = useCallback((messages2 = []) => {
-    setMessages((previousMessages: never[] | undefined) =>
-      GiftedChat.append(previousMessages, messages2)
+  const onSend = useCallback((newMessages = []) => {
+    console.log(newMessages, "new")
+    setChatMessages((previousMessages: never[] | undefined) =>
+      GiftedChat.append(previousMessages, newMessages)
     );
   }, []);
 
   return (
     <>
       <GiftedChat
-        messages={messages2}
+        messages={cahtMessages}
         messagesContainerStyle={{ backgroundColor: backgroundColor }}
         //@ts-expect-error
         onSend={(messages2) => onSend(messages2)}
         user={{
-          _id: 1,
+          _id: user.id,
         }}
       />
       <ModalLoadingMsg visible={loadingMsg} />
