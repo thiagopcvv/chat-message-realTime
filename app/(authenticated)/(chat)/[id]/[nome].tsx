@@ -12,19 +12,25 @@ import { ModalLoadingMsg } from "./components/modalLoadingMsg";
 
 export default function ChatScreen() {
   const { id, nome } = useLocalSearchParams();
-  const { fetchMessages, loadingMsg, messages } = useMessageStore();
+  const { fetchMessages, loadingMsg, messages, getMessages } =
+    useMessageStore();
   const [messages2, setMessages] = useState<any>([]);
 
   const backgroundColor = useThemeColor(
     { light: Colors.light.background2, dark: Colors.dark.background2 },
     "background"
   );
-  console.log(messages);
+
   useEffect(() => {
     if (typeof id === "string" || typeof id === "number") {
-      fetchMessages(parseInt(id), messages);
+      getMessages(parseInt(id));
+      if (messages.length === 0) {
+        fetchMessages(parseInt(id), messages);
+      }
     }
   }, []);
+
+  console.log(messages)
 
   useEffect(() => {
     setMessages([
@@ -58,7 +64,7 @@ export default function ChatScreen() {
           _id: 1,
         }}
       />
-      <ModalLoadingMsg visible />
+      <ModalLoadingMsg visible={loadingMsg} />
     </>
   );
 }
