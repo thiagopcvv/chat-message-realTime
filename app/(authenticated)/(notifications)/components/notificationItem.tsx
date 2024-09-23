@@ -6,16 +6,19 @@ import { useState } from "react";
 import { friendshipService } from "@/services/friendShipService";
 import { useConversationStore } from "@/store/conversationStore";
 import { useFriendshipsStore } from "@/store/friendshipsStore";
+import { usePusherMessageStore } from "@/store/pusherMessageStore";
+import { useAuth } from "@/hooks/useAuth";
 
 interface iNoticationItemProps {
   item: any;
 }
 
 export default function NotificationItem({ item }: iNoticationItemProps) {
-  const [accepted, setAccepted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
   const { fetchConversations } = useConversationStore();
   const { fetchFriendships } = useFriendshipsStore();
+  const [accepted, setAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function onAcceptFriendship() {
     setLoading(true);

@@ -7,16 +7,18 @@ import { useConversationStore } from "@/store/conversationStore";
 import { ListConversations } from "./components/ListConversations";
 import { AnimationEmpty } from "./components/AnimationEmpty";
 import { useFriendshipsStore } from "@/store/friendshipsStore";
+import { usePusherMessageStore } from "@/store/pusherMessageStore";
 
 export default function ConversationsScreen() {
   const { fetchConversations, conversations, loadingConversation } =
     useConversationStore();
   const { fetchFriendships } = useFriendshipsStore();
-  
+  const { change } = usePusherMessageStore();
+
   useEffect(() => {
     fetchConversations();
     fetchFriendships();
-  }, []);
+  }, [change]);
 
   return (
     <ThemedView

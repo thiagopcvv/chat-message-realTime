@@ -1,12 +1,11 @@
-import { messageService } from "@/services/messageService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 
 interface iUseMessageStoreProps {
   messages: any[];
-  fetchMessages: (friendId: number, messages: any[]) => void;
   loadingMsg: boolean;
   getMessages: (friendId: number) => void
+  fetch: (conversations: any, id: any, userId: number) => void
 }
 
 const useMessageStore = create<iUseMessageStoreProps>((set) => ({
@@ -18,36 +17,46 @@ const useMessageStore = create<iUseMessageStoreProps>((set) => ({
 
     set({ messages: parsedMessages });
   },
-  fetchMessages: async (friendId: number, messages: any[]) => {
-    set({ loadingMsg: true });
+  fetch: async (conversations: any, id: any, userId: number) => {
+    conversations.forEach((conversation: any) => {
+      if (conversation.id == id) {
+        const userMessages: any[] = [];
+        const friendMessages: any[] = [];
 
-    try {
-      const storedMessages = await AsyncStorage.getItem(`messages_${friendId}`);
-      const parsedMessages = storedMessages ? JSON.parse(storedMessages) : [];
+        if (conversation.messages.length > 0) {
+          conversation.messages.forEach((message: any) => {
+            if (message.user_id === userId) {
+              userMessages.push(message);
+            } else {
+              friendMessages.push(message);
+            }
+          });
 
-      const result = await messageService.fetchData(friendId);
+          console.log('Mensagens do usuário:', userMessages);
+          console.log('Mensagens do amigo:', friendMessages);
 
-      if (parseInt(result.id_conversa) === friendId) {
-        if (parsedMessages.length === 0) {
-          parsedMessages.push(result);
+          const messagesToStore = {
+            user: userMessages,
+            friend: friendMessages
+          };
+
+          AsyncStorage.setItem(`messages_${id}`, JSON.stringify(messagesToStore))
+            .then(() => {
+              console.log('Mensagens salvas no AsyncStorage');
+            })
+            .catch((error) => {
+              console.error('Erro ao salvar mensagens no AsyncStorage', error);
+            });
+
+           set({
+            messages: [messagesToStore]
+          });
         }
-
-        parsedMessages.forEach((message: any) => {
-          if (message.id_conversa === result.id_conversa) {
-            message = result;
-          }
-        });
-
-        set({ messages: parsedMessages });
-
-        await AsyncStorage.setItem(`messages_${friendId}`, JSON.stringify(parsedMessages));
       }
-    } catch (error) {
-      console.error("Erro ao buscar mensagens:", error);
-    }
+    });
+  }
 
-    set({ loadingMsg: false });
-  },
+
 
 }));
 

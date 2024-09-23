@@ -20,4 +20,32 @@ async function fetchData(friendId: number) {
   }
 }
 
-export const messageService = { fetchData };
+async function sendMessage(conversaId: number, mensagem: string) {
+  const connection = await theresConnection();
+
+  if (!connection) {
+    Alert.alert("Sem conexão!\nConecte-se a uma rede para enviar a mensagem.");
+    return;
+  }
+
+  try {
+    const response = await api.post("messages", {
+      conversaId: conversaId,
+      mensagem: mensagem,
+    });
+
+    if (response.data === true) {
+      console.log("Mensagem enviada com sucesso!");
+      return response.data;
+    } else {
+      throw new Error("Erro inesperado no envio da mensagem");
+    }
+  } catch (error) {
+    console.warn("Erro ao enviar mensagem: " + error);
+    Alert.alert(
+      "Não foi possível enviar a mensagem\nTente novamente mais tarde."
+    );
+  }
+}
+
+export const messageService = { fetchData, sendMessage };

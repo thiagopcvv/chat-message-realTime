@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { TouchableOpacity, useColorScheme } from "react-native";
 import { Avatar } from "react-native-paper";
 
-export function ListConversations({item}: any) {
+export function ListConversations({ item }: any) {
   const theme = useColorScheme();
   const backgroundColor = useThemeColor(
     { dark: Colors.dark.background, light: Colors.light.background },
@@ -19,12 +19,12 @@ export function ListConversations({item}: any) {
   );
   return (
     <TouchableOpacity
-      onPress={() =>
+      onPress={() => {
         router.push({
           pathname: `/(authenticated)/[id]/[nome]`,
           params: { id: item.id, nome: item.name },
-        })
-      }
+        });
+      }}
     >
       <ListItem
         containerStyle={{

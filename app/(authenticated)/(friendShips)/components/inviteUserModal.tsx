@@ -1,8 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useAuth } from "@/hooks/useAuth";
 import { usePusher } from "@/hooks/usePusher";
 import { friendshipService } from "@/services/friendShipService";
 import { useFriendshipsStore } from "@/store/friendshipsStore";
+import { usePusherMessageStore } from "@/store/pusherMessageStore";
 import { router } from "expo-router";
 import { Dispatch, SetStateAction } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
@@ -19,6 +21,7 @@ export function InviteUserModal({
   visible,
   setModalUser,
 }: iInviteUserModalProps) {
+
   async function handlePressInviteFriendshipp() {
     setModalUser(false);
     await friendshipService.registerFriendship(item.id);
