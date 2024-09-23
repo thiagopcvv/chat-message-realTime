@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }: any) => {
   const [isAuthenticated, setIsAuthenticates] = useState(
     !!Object.keys(user).length
   );
+  const apiUrl = process.env.EXPO_PUBLIC_API_URL
 
   const authenticate = async ({ email, password }: any) => {
     setLoading(true);
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.124:8087/api/login",
+        `http://${apiUrl}:8087/api/login`,
         formData,
         {
           headers: {
@@ -139,7 +140,7 @@ export const AuthProvider = ({ children }: any) => {
 
     try {
       const request = await axios.post(
-        "http://192.168.100.124:8087/api/register",
+        `http://${apiUrl}:8087/api/register`,
         formData,
         {
           headers: {

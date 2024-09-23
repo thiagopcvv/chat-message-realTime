@@ -25,7 +25,7 @@ import Pusher from "pusher-js";
 const pusher = new Pusher("app-key", {
   cluster: "mt1",
   forceTLS: false,
-  wsHost: "192.168.100.124",
+  wsHost: process.env.EXPO_PUBLIC_API_URL,
   wsPort: 6001,
   enabledTransports: ["ws"],
   disableStats: true,

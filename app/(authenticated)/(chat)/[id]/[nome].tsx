@@ -36,32 +36,36 @@ export default function ChatScreen() {
 
   useEffect(() => {
     if (messages && messages.length > 0) {
-      console.log(messages)
       const userMessages = formatMessages(messages[0].user, true);
       const friendMessages = formatMessages(messages[0].friend, false);
       setChatMessages([...friendMessages, ...userMessages]);
     }
   }, [messages]);
 
-  const onSend = useCallback(async (newMessages = []) => {
-    const messageText = newMessages[0]?.text;
+  const onSend = useCallback(
+    async (newMessages: any = []) => {
+      const messageText = newMessages[0]?.text;
 
-    if (messageText) {
-      try {
-        await messageService.sendMessage(parseInt(id), messageText);
-        
-        setChatMessages((previousMessages) =>
-          GiftedChat.append(previousMessages, newMessages)
-        );
+      if (messageText) {
+        try {
+          if (typeof id === "string" || typeof id === "number") {
+            // await messageService.sendMessage(parseInt(id), messageText);
+          }
 
-        const updatedMessages = [...chatMessages, ...newMessages];
-        await AsyncStorage.setItem(`messages_${id}`, JSON.stringify(updatedMessages));
+          setChatMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, newMessages)
+          );
 
-      } catch (error) {
-        Alert.alert("Erro", "Não foi possível enviar a mensagem");
+          const updatedMessages = [...chatMessages, ...newMessages];
+          console.log(updatedMessages)
+          // await AsyncStorage.setItem(`messages_${id}`, JSON.stringify(updatedMessages));
+        } catch (error) {
+          Alert.alert("Erro", "Não foi possível enviar a mensagem");
+        }
       }
-    }
-  }, [chatMessages]);
+    },
+    [chatMessages]
+  );
 
   return (
     <>
