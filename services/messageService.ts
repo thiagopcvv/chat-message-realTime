@@ -20,13 +20,22 @@ async function fetchData(friendId: number) {
   }
 }
 
-async function sendMessage(conversaId: number, mensagem: string) {
+async function sendMessage(
+  conversaId: number,
+  mensagem: string,
+  friendId: string
+) {
   const connection = await theresConnection();
 
   if (!connection) {
     Alert.alert("Sem conexão!\nConecte-se a uma rede para enviar a mensagem.");
     return;
   }
+
+  const formData = new FormData();
+  formData.append("conversa_id", conversaId.toString());
+  formData.append("conversaId", mensagem);
+  formData.append("friendId", friendId);
 
   try {
     const response = await api.post("messages", {

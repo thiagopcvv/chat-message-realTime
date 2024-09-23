@@ -9,7 +9,7 @@ export default function ConversationsLayout() {
   const { user } = useAuth();
   const { pusherConnectionChannel, onChange } = usePusher();
   const { fetchConversations } = useConversationStore();
-  const { connectPusher, change } = usePusherMessageStore();
+  const { connectPusher } = usePusherMessageStore();
 
   useEffect(() => {
     pusherConnectionChannel(
@@ -19,7 +19,6 @@ export default function ConversationsLayout() {
     connectPusher(
       `Conversation.Id.${user.id}`,
       `Conversation.Event.${user.id}`,
-      change
     );
   }, []);
 

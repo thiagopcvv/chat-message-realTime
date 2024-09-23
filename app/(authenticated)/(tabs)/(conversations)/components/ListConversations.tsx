@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { useAuth } from "@/hooks/useAuth";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { randomID } from "@/utils/functions";
 import { ListItem } from "@rneui/themed";
@@ -8,6 +9,8 @@ import { Avatar } from "react-native-paper";
 
 export function ListConversations({ item }: any) {
   const theme = useColorScheme();
+  const { user } = useAuth();
+
   const backgroundColor = useThemeColor(
     { dark: Colors.dark.background, light: Colors.light.background },
     "background"
@@ -17,12 +20,18 @@ export function ListConversations({ item }: any) {
     { dark: Colors.dark.text, light: Colors.light.text },
     "background"
   );
+
   return (
     <TouchableOpacity
       onPress={() => {
         router.push({
           pathname: `/(authenticated)/[id]/[nome]`,
-          params: { id: item.id, nome: item.name },
+          params: {
+            id: item.id,
+            nome: item.name,
+            friend:
+              item.sender_id !== user.id ? item.sender_id : item.receiver_id,
+          },
         });
       }}
     >

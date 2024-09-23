@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ChatScreen() {
   const { user } = useAuth();
-  const { id, nome } = useLocalSearchParams();
+  const { id, nome, friend } = useLocalSearchParams();
   const { loadingMsg, messages, getMessages, fetch } = useMessageStore();
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const { conversations } = useConversationStore();
@@ -35,6 +35,10 @@ export default function ChatScreen() {
   }, []);
 
   useEffect(() => {
+    fetch(conversations, id, user.id);
+  }, [conversations]);
+
+  useEffect(() => {
     if (messages && messages.length > 0) {
       const userMessages = formatMessages(messages[0].user, true);
       const friendMessages = formatMessages(messages[0].friend, false);
@@ -48,8 +52,11 @@ export default function ChatScreen() {
 
       if (messageText) {
         try {
-          if (typeof id === "string" || typeof id === "number") {
-            // await messageService.sendMessage(parseInt(id), messageText);
+          if (
+            typeof id === "string" ||
+            (typeof id === "number" && typeof friend === "string")
+          ) {
+            // await messageService.sendMessage(parseInt(id), messageText, friend);
           }
 
           setChatMessages((previousMessages) =>
@@ -57,7 +64,6 @@ export default function ChatScreen() {
           );
 
           const updatedMessages = [...chatMessages, ...newMessages];
-          console.log(updatedMessages)
           // await AsyncStorage.setItem(`messages_${id}`, JSON.stringify(updatedMessages));
         } catch (error) {
           Alert.alert("Erro", "Não foi possível enviar a mensagem");

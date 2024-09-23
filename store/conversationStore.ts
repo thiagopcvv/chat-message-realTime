@@ -1,3 +1,4 @@
+import { conversations } from "@/mocks/conversationsMocks";
 import { conversationService } from "@/services/conversationService";
 import { create } from "zustand";
 
