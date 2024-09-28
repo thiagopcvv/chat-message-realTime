@@ -1,3 +1,5 @@
 /// <reference types="expo/types" />
 
 // NOTE: This file should not be edited and should be in your git ignore
+
+EXPO_PUBLIC_API_URL="192.168.100.204"
