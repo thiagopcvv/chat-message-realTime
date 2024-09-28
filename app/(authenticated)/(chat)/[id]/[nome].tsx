@@ -4,7 +4,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { useMessageStore } from "@/store/messageStore";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { View, Alert, StyleSheet } from "react-native";
+import { View, Alert } from "react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,6 +19,7 @@ export default function ChatScreen() {
   const { id, friend } = useLocalSearchParams();
   const { loadingMsg, messages, getMessages, fetch } = useMessageStore();
   const [chatMessages, setChatMessages] = useState<any[]>([]);
+
   const { conversations } = useConversationStore();
   const backgroundColor = useThemeColor(
     { light: Colors.light.background2, dark: Colors.dark.background2 },
@@ -33,6 +34,7 @@ export default function ChatScreen() {
       }
     }
   }, []);
+
 
   useEffect(() => {
     fetch(conversations, id, user.id);
@@ -72,41 +74,50 @@ export default function ChatScreen() {
               friend
             );
 
-            setChatMessages((previousMessages) =>
-              previousMessages.map((msg) =>
-                msg._id === pendingMessage._id
-                  ? {
-                      ...msg,
-                      pending: false,
-                      _id: result.id,
-                      createdAt: result.created_at,
-                      conversa_id: result.conversa_id,
-                    }
-                  : msg
-              )
-            );
+            if (result) {
+              setChatMessages((previousMessages) =>
+                previousMessages.map((msg) =>
+                  msg._id === pendingMessage._id
+                    ? {
+                        ...msg,
+                        pending: false,
+                        _id: result.id,
+                        createdAt: result.created_at,
+                        conversa_id: result.conversa_id,
+                      }
+                    : msg
+                )
+              );
 
-            const newUpateMessagesStorage = [...messages, result];
-            await AsyncStorage.setItem(
-              `messages_${id}`,
-              JSON.stringify(newUpateMessagesStorage)
-            );
+              const newUpateMessagesStorage = [...messages, result];
+              await AsyncStorage.setItem(
+                `messages_${id}`,
+                JSON.stringify(newUpateMessagesStorage)
+              );
+            }
           }
         } catch (error) {
           Alert.alert("Erro", "Não foi possível enviar a mensagem: " + error);
 
+          // Handle error for the pending message
           setChatMessages((previousMessages) =>
             previousMessages.map((msg) =>
               msg._id === pendingMessage._id
-                ? { ...msg, pending: false, error: true, createdAt: new Date() }
+                ? {
+                    ...msg,
+                    pending: false,
+                    error: true,
+                    _id: randomID(),
+                  }
                 : msg
             )
           );
         }
       }
     },
-    [chatMessages, id, friend, messages]
+    [id, friend, messages]
   );
+
 
   const renderBubble = useCallback((props: any) => {
     return (
@@ -135,7 +146,7 @@ export default function ChatScreen() {
     <>
       <GiftedChat
         messages={memoizedMessages}
-        renderBubble={renderBubble} // Personalização das bolhas
+        renderBubble={renderBubble}
         messagesContainerStyle={{ backgroundColor: backgroundColor }}
         onSend={(messages2) => onSend(messages2)}
         user={{

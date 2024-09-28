@@ -179,7 +179,6 @@ export const AuthProvider = ({ children }: any) => {
         return;
       }
 
-      console.log(error);
       switch (error.response?.status) {
         case 401:
           Alert.alert(

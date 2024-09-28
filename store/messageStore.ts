@@ -14,7 +14,7 @@ const useMessageStore = create<iUseMessageStoreProps>((set) => ({
   getMessages: async (friendId: number) => {
     const storedMessages = await AsyncStorage.getItem(`messages_${friendId}`);
     const parsedMessages = storedMessages ? JSON.parse(storedMessages) : [];
-    console.log(parsedMessages, "parse")
+
     set({ messages: parsedMessages });
   },
   fetch: async (conversations: any, id: any) => {
