@@ -14,33 +14,16 @@ const useMessageStore = create<iUseMessageStoreProps>((set) => ({
   getMessages: async (friendId: number) => {
     const storedMessages = await AsyncStorage.getItem(`messages_${friendId}`);
     const parsedMessages = storedMessages ? JSON.parse(storedMessages) : [];
-
+    console.log(parsedMessages, "parse")
     set({ messages: parsedMessages });
   },
-  fetch: async (conversations: any, id: any, userId: number) => {
+  fetch: async (conversations: any, id: any) => {
     conversations.forEach((conversation: any) => {
       if (conversation.id == id) {
-        const userMessages: any[] = [];
-        const friendMessages: any[] = [];
 
         if (conversation.messages.length > 0) {
-          conversation.messages.forEach((message: any) => {
-            if (message.user_id === userId) {
-              userMessages.push(message);
-            } else {
-              friendMessages.push(message);
-            }
-          });
 
-          console.log('Mensagens do usuário:', userMessages);
-          console.log('Mensagens do amigo:', friendMessages);
-
-          const messagesToStore = {
-            user: userMessages,
-            friend: friendMessages
-          };
-
-          AsyncStorage.setItem(`messages_${id}`, JSON.stringify(messagesToStore))
+          AsyncStorage.setItem(`messages_${id}`, JSON.stringify(conversation.messages))
             .then(() => {
               console.log('Mensagens salvas no AsyncStorage');
             })
@@ -48,8 +31,8 @@ const useMessageStore = create<iUseMessageStoreProps>((set) => ({
               console.error('Erro ao salvar mensagens no AsyncStorage', error);
             });
 
-           set({
-            messages: [messagesToStore]
+          set({
+            messages: conversation.messages
           });
         }
       }

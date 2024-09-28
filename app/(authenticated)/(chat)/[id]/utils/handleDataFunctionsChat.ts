@@ -1,12 +1,11 @@
-const formatMessages = (messagesArray: any[], isUser: boolean) => {
-    console.log(messagesArray, "array")
+const formatMessages = (messagesArray: any[]) => {
+    console.log(messagesArray, "uibfuyhs\vfiu")
     return messagesArray.map((message: any) => ({
         _id: message.id,  // ID único da mensagem
         text: message.mensagem,  // Texto da mensagem
-        createdAt: new Date(message.updated_at),  // Data de criação
+        createdAt: message.created_at,  // Data de criação
         user: {
             _id: message.user_id,
-            name: isUser ? "Você" : "Amigo",
             avatar: null
         },
     }));

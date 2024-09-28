@@ -23,7 +23,7 @@ async function fetchData(friendId: number) {
 async function sendMessage(
   conversaId: number,
   mensagem: string,
-  friendId: string
+  friendId: string | string[]
 ) {
   const connection = await theresConnection();
 
@@ -33,17 +33,16 @@ async function sendMessage(
   }
 
   const formData = new FormData();
-  formData.append("conversa_id", conversaId.toString());
-  formData.append("conversaId", mensagem);
-  formData.append("friendId", friendId);
+  formData.append("conversaId", conversaId.toString());
+  formData.append("mensagem", mensagem);
+  formData.append("friendId", friendId.toString());
 
   try {
-    const response = await api.post("messages", {
-      conversaId: conversaId,
-      mensagem: mensagem,
+    const response = await api.post("messages", formData, {
+      headers: { "Content-Type": "multipart/form-data", contentType: false },
     });
 
-    if (response.data === true) {
+    if (response.data) {
       console.log("Mensagem enviada com sucesso!");
       return response.data;
     } else {
