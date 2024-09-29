@@ -15,7 +15,7 @@ const usePusherMessageStore = create<iUsePusherMessageStoreProps>((set) => ({
             const channelPusher = pusher.subscribe(channel);
             channelPusher.bind(event, (data: any) => {
                 console.log(data);
-                set((state) => ({change: !state.change}))
+                // set((state) => ({change: !state.change}))
             });
         }
     }
