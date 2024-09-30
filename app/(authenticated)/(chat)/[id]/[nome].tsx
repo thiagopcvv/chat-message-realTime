@@ -19,7 +19,8 @@ import { pusher } from "@/pusher";
 export default function ChatScreen() {
   const { user } = useAuth();
   const { id, friend } = useLocalSearchParams();
-  const { loadingMsg, messages, getMessages, fetch, messagesFormatted } = useMessageStore();
+  const { loadingMsg, messages, getMessages, fetch, messagesFormatted } =
+    useMessageStore();
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const { conversations } = useConversationStore();
   const backgroundColor = useThemeColor(
@@ -27,43 +28,37 @@ export default function ChatScreen() {
     "background"
   );
 
-  
   useEffect(() => {
     if (typeof id === "string" || typeof id === "number") {
       getMessages(parseInt(id));
-      if (messages.length === 0) {
-        fetch(conversations, id, user.id);
-      }
+      fetch(conversations, id, user.id);
     }
-  }, []);
+  }, [conversations]);
 
   useEffect(() => {
-    
-    if (messages && messages.length > 0 && messagesFormatted.length === 0) {
-      if(messages[0].conversa_id !== id){
-
+    if (messages && messages.length > 0 && messages.length > messagesFormatted.length) {
+      
         const formattedMessages = formatMessages(messages);
         setChatMessages([...formattedMessages]);
-        AsyncStorage.setItem(`messages_${id}`, JSON.stringify(formattedMessages))
-        .then(() => {
-          console.log('Mensagens salvas no AsyncStorage');
-        })
-        .catch((error) => {
-          console.error('Erro ao salvar mensagens no AsyncStorage', error);
-        });
-      }
+        AsyncStorage.setItem(
+          `messages_${id}`,
+          JSON.stringify(formattedMessages)
+        )
+          .then(() => {
+            console.log("Mensagens salvas no AsyncStorage");
+          })
+          .catch((error) => {
+            console.error("Erro ao salvar mensagens no AsyncStorage", error);
+          });
     } else {
       setChatMessages([...messagesFormatted]);
     }
   }, [messages, messagesFormatted]);
 
   useEffect(() => {
-
     const channel = pusher.subscribe(`Conversation.Id.${user.id}`);
 
     channel.bind(`Conversation.Event.${user.id}`, (data: any) => {
-      console.log("Nova mensagem recebida", data);
-
       const newMessage = formatMessages([data.message]);
       setChatMessages((previousMessages) =>
         GiftedChat.append(previousMessages, newMessage)
@@ -117,12 +112,6 @@ export default function ChatScreen() {
                     : msg
                 )
               );
-             
-              const newUpateMessagesStorage = [newMessages[0], ...chatMessages];
-              await AsyncStorage.setItem(
-                `messages_${id}`,
-                JSON.stringify(newUpateMessagesStorage)
-              );
             }
           }
         } catch (error) {
@@ -145,7 +134,7 @@ export default function ChatScreen() {
     },
     [id, friend, messages]
   );
-  
+
   const renderBubble = useCallback((props: any) => {
     return (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -168,6 +157,17 @@ export default function ChatScreen() {
   }, []);
 
   const memoizedMessages = useMemo(() => chatMessages, [chatMessages]);
+
+  useEffect(() => {
+    const func = async () => {
+      await AsyncStorage.setItem(
+        `messages_${id}`,
+        JSON.stringify(chatMessages)
+      );
+    };
+
+    func();
+  }, [chatMessages]);
 
   return (
     <>
